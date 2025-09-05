@@ -45,17 +45,9 @@ last_updated: [Current date in YYYY-MM-DD format]
 
 [Patterns, conventions, and design decisions discovered]
 
-## Historical Context (from thoughts/)
-
-[Relevant insights from thoughts/ directory with references]
-
-- `thoughts/shared/something.md` - Historical decision about X
-- `thoughts/local/notes.md` - Past exploration of Y
-  Note: Paths exclude "searchable/" even if found there
-
 ## Related Research
 
-[Links to other research documents in thoughts/shared/research/]
+[Links to other research documents in .strategic-claude-basic/research/]
 
 ## Open Questions
 
