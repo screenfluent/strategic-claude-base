@@ -8,7 +8,7 @@
 **CRITICAL**: All plan documents in this directory MUST follow this exact pattern:
 
 ```
-NNNN-DD-MM-YYYY-day-plan-subject.md
+PLAN_NNNN_DD-MM-YYYY_day_subject.md
 ```
 
 Where:
@@ -16,7 +16,6 @@ Where:
 - **NNNN** = Sequential document number (0001, 0002, etc.)
 - **DD-MM-YYYY** = Date in day-month-year format
 - **day** = Truncated day name (mon, tue, wed, thu, fri, sat, sun)
-- **plan** = Plan type(implementation, testing, refactoring)
 - **subject** = Brief hyphenated description
 
 ## Current Status

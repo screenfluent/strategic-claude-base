@@ -31,7 +31,7 @@ Please provide:
 
 I'll analyze this information and work with you to create a comprehensive plan.
 
-For deeper analysis, try: `/create_plan think deeply about .strategic-claude-basic/research/NNNN-DD-MM-YYYY-day-research-subject.md`
+For deeper analysis, try: `/create_plan think deeply about .strategic-claude-basic/research/[filename]`
 ```
 
 Then wait for the user's input.
@@ -42,7 +42,7 @@ Then wait for the user's input.
 
 1. **Read all mentioned files immediately and FULLY**:
 
-   - Research documents (e.g., `.strategic-claude-basic/research/NNNN-DD-MM-YYYY-day-research-subject.md`)
+   - Research documents (e.g., `.strategic-claude-basic/research/[filename].md`)
    - Related implementation plans
    - Any JSON/data files mentioned
    - **IMPORTANT**: Use the Read tool WITHOUT limit/offset parameters to read entire files
@@ -346,7 +346,7 @@ tasks = [
 User: /plan
 Assistant: I'll help you create a detailed implementation plan...
 
-User: We need to add parent-child tracking for Claude sub-tasks. See .strategic-claude-basic/research/NNNN-DD-MM-YYYY-day-research-subject.md`
+User: We need to add parent-child tracking for Claude sub-tasks. See .strategic-claude-basic/research/[filename]`
 Assistant: Let me read that ticket file completely first...
 
 [Reads file fully]
