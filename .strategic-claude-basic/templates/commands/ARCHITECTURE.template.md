@@ -17,24 +17,24 @@
 ### High-Level Architecture
 
 ```
-┌─────────────────────────────────────────────────────────┐
+┌────────────────────────────────────────────────────────┐
 │                     [System Layer Name]                │
 │  ┌─────────────────────────────────────────────────┐   │
-│  │            [Component Name]                      │   │
+│  │            [Component Name]                     │   │
 │  └─────────────────┬───────────────────────────────┘   │
-│                    │                                    │
+│                    │                                   │
 │  ┌─────────────────▼───────────────────────────────┐   │
-│  │         [Component Name]                         │   │
+│  │         [Component Name]                        │   │
 │  └─────────────────┬───────────────────────────────┘   │
-└────────────────────┼────────────────────────────────────┘
+└────────────────────┼───────────────────────────────────┘
                      │
-┌────────────────────┼────────────────────────────────────┐
-│                    ▼                                    │
-│             [System Layer Name]                         │
+┌────────────────────┼───────────────────────────────────┐
+│                    ▼                                   │
+│             [System Layer Name]                        │
 │  ┌──────────────────────────────────────────────────┐  │
 │  │  [Component A]   [Component B]   [Component C]   │  │
 │  └──────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────┘
+└────────────────────────────────────────────────────────┘
             │
 ┌───────────▼─────────────────────────────────────────┐
 │                [Data Layer]                         │
@@ -48,7 +48,7 @@
 ### Component Interaction Flow
 
 ```
-[User/Client] 
+[User/Client]
      │
      ▼
 [API Gateway/Entry Point]
@@ -69,11 +69,13 @@
 **Purpose**: [What this component does and why it exists]
 
 **Responsibilities**:
+
 - [Primary responsibility]
-- [Secondary responsibility]  
+- [Secondary responsibility]
 - [Additional responsibility]
 
 **Interfaces**:
+
 ```go
 // Example interface definition
 type [ComponentName] interface {
@@ -83,6 +85,7 @@ type [ComponentName] interface {
 ```
 
 **Key Implementation Files**:
+
 - `[file/path/component.go]` - [Description]
 - `[file/path/interface.go]` - [Description]
 - `[file/path/types.go]` - [Description]
@@ -101,7 +104,7 @@ type [ComponentName] interface {
         ▼
 2. [Processing Step 1] → [Validation/Transform]
         │
-        ▼  
+        ▼
 3. [Business Logic] → [Data Storage]
         │
         ▼
@@ -112,6 +115,7 @@ type [ComponentName] interface {
 ```
 
 **Step-by-Step Process**:
+
 1. **[Step Name]**: [Detailed description of what happens]
 2. **[Step Name]**: [Detailed description of what happens]
 3. **[Step Name]**: [Detailed description of what happens]
@@ -150,17 +154,17 @@ type [ComponentName] interface {
 
 ### Design Goals
 
-| Metric | Target | Current | Rationale |
-|--------|--------|---------|-----------|
-| [Response Time] | [Target Value] | [Current Value] | [Why this target] |
-| [Throughput] | [Target Value] | [Current Value] | [Why this target] |
-| [Memory Usage] | [Target Value] | [Current Value] | [Why this target] |
+| Metric             | Target         | Current         | Rationale         |
+| ------------------ | -------------- | --------------- | ----------------- |
+| [Response Time]    | [Target Value] | [Current Value] | [Why this target] |
+| [Throughput]       | [Target Value] | [Current Value] | [Why this target] |
+| [Memory Usage]     | [Target Value] | [Current Value] | [Why this target] |
 | [Concurrent Users] | [Target Value] | [Current Value] | [Why this target] |
 
 ### Optimization Strategies
 
 1. **[Strategy Name]**: [Description of optimization approach]
-2. **[Strategy Name]**: [Description of optimization approach] 
+2. **[Strategy Name]**: [Description of optimization approach]
 3. **[Strategy Name]**: [Description of optimization approach]
 4. **[Strategy Name]**: [Description of optimization approach]
 
@@ -198,12 +202,12 @@ type [ComponentName] interface {
 
 ### Core Technologies
 
-| Technology | Version | Purpose | Rationale |
-|------------|---------|---------|-----------|
-| [Language/Framework] | [Version] | [Primary purpose] | [Why chosen] |
-| [Database] | [Version] | [Data storage] | [Why chosen] |
-| [Cache] | [Version] | [Performance] | [Why chosen] |
-| [Message Queue] | [Version] | [Async processing] | [Why chosen] |
+| Technology           | Version   | Purpose            | Rationale    |
+| -------------------- | --------- | ------------------ | ------------ |
+| [Language/Framework] | [Version] | [Primary purpose]  | [Why chosen] |
+| [Database]           | [Version] | [Data storage]     | [Why chosen] |
+| [Cache]              | [Version] | [Performance]      | [Why chosen] |
+| [Message Queue]      | [Version] | [Async processing] | [Why chosen] |
 
 ### Development Tools
 
@@ -220,7 +224,7 @@ type [ComponentName] interface {
 ┌─────────────────────────────────────────────────────────┐
 │                   Production                            │
 ├─────────────────────────────────────────────────────────┤
-│  Load Balancer → [App Instance 1] [App Instance 2]     │
+│  Load Balancer → [App Instance 1] [App Instance 2]      │
 │                      │                │                 │
 │                      ▼                ▼                 │
 │                 [Database Primary] [Database Replica]   │
@@ -233,9 +237,9 @@ type [ComponentName] interface {
 └─────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────┐
-│                Development                              │  
+│                Development                              │
 ├─────────────────────────────────────────────────────────┤
-│  [Local Instance] → [Local Database]                   │
+│  [Local Instance] → [Local Database]                    │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -292,17 +296,21 @@ type [ComponentName] interface {
 ### Key Architectural Decisions
 
 #### Decision 1: [Decision Title]
+
 **Context**: [Why this decision was needed]
-**Options Considered**: 
+**Options Considered**:
+
 - [Option A]: [Pros/Cons]
 - [Option B]: [Pros/Cons]
-**Decision**: [What was chosen and why]
-**Consequences**: [Impact of this decision]
+  **Decision**: [What was chosen and why]
+  **Consequences**: [Impact of this decision]
 
 #### Decision 2: [Decision Title]
+
 [Follow same format]
 
 #### Decision 3: [Decision Title]
+
 [Follow same format]
 
 ## Future Considerations
@@ -342,7 +350,5 @@ type [ComponentName] interface {
 
 ---
 
-**Architecture Owners**: [Team/Individual responsible]
 **Last Updated**: [Date]
-**Next Review**: [Date]
 **Version**: [Architecture version]
