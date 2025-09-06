@@ -18,6 +18,23 @@ Where:
 - **day** = Truncated day name (mon, tue, wed, thu, fri, sat, sun)
 - **subject** = Brief hyphenated description
 
+### Subject Naming for Phase-Specific Plans
+
+When using the `/plan_phase` command, use these subject patterns:
+
+**For specific milestones**:
+
+- `phase1-1-project-infrastructure` (Milestone 1.1)
+- `phase2-3-motion-blur-integration` (Milestone 2.3)
+- `phase3-2-visual-theme-system` (Milestone 3.2)
+
+**For comprehensive plans**:
+
+- `phase1-foundation-implementation` (All Phase 1 milestones)
+- `phase2-performance-enhancement` (All Phase 2 milestones)
+
+This ensures phase-specific plans are easily identifiable and searchable.
+
 ## Current Status
 
 ✅ All files now follow the truncated day name convention.
