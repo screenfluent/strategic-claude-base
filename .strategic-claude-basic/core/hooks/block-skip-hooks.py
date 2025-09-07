@@ -124,6 +124,32 @@ def main() -> None:
             )
             return
 
+        # Block git commit amend and no-edit flags
+        if "git commit" in command and (
+            "--amend" in command or "--no-edit" in command
+        ):
+            error_message = (
+                "🚫 Blocked: Git commit amendments without proper review are not allowed.\n\n"
+                "Instead of amending:\n"
+                "• Create a new commit with proper description\n"
+                "• Use interactive rebase if history needs modification\n"
+                "• Ensure all changes are properly reviewed\n\n"
+                f"Transparent commit history maintains {PROJECT_NAME.replace('-', ' ').title()} integrity."
+            )
+
+            send_security_alert(
+                violation_type="Git commit amendment attempt",
+                command=command,
+                session_id=session_id,
+                cwd=cwd,
+                details="Attempted to amend commit without proper editing/review",
+            )
+
+            sys.stdout.write(
+                json.dumps({"decision": "block", "message": error_message}) + "\n"
+            )
+            return
+
         # Allow all other commands
         sys.stdout.write(json.dumps({"decision": "approve"}) + "\n")
 
