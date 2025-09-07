@@ -17,12 +17,14 @@ If no topic was provided or if you need to specify what to research, please tell
 ### Steps to follow after receiving the research query:
 
 1. **Read any directly mentioned files first:**
+
    - If the user mentions specific files (tickets, docs, JSON), read them FULLY first
    - **IMPORTANT**: Use the Read tool WITHOUT limit/offset parameters to read entire files
    - **CRITICAL**: Read these files yourself in the main context before spawning any sub-tasks
    - This ensures you have full context before decomposing the research
 
 2. **Analyze and decompose the research question:**
+
    - Break down the user's query into composable research areas
    - Take time to ultrathink about the underlying patterns, connections, and architectural implications the user might be seeking
    - Identify specific components, patterns, or concepts to investigate
@@ -30,19 +32,23 @@ If no topic was provided or if you need to specify what to research, please tell
    - Consider which directories, files, or architectural patterns are relevant
 
 3. **Spawn parallel sub-agent tasks for comprehensive research:**
+
    - Create multiple Task agents to research different aspects concurrently
    - We now have specialized agents that know how to do specific research tasks:
 
    **For codebase research:**
+
    - Use the **codebase-locator** agent to find WHERE files and components live
    - Use the **codebase-analyzer** agent to understand HOW specific code works
    - Use the **codebase-pattern-finder** agent if you need examples of similar implementations
 
    **For web research (only if user explicitly asks):**
+
    - Use the **web-search-researcher** agent for external documentation and resources
    - IF you use web-research agents, instruct them to return LINKS with their findings, and please INCLUDE those links in your final report
 
    The key is to use these agents intelligently:
+
    - Start with locator agents to find what exists
    - Then use analyzer agents on the most promising findings
    - Run multiple agents in parallel when they're searching for different things
@@ -50,6 +56,7 @@ If no topic was provided or if you need to specify what to research, please tell
    - Don't write detailed prompts about HOW to search - the agents already know
 
 4. **Wait for all sub-agents to complete and synthesize findings:**
+
    - IMPORTANT: Wait for ALL sub-agent tasks to complete before proceeding
    - Compile all sub-agent results (both codebase and thoughts findings)
    - Prioritize live codebase findings as primary source of truth
@@ -81,18 +88,20 @@ If no topic was provided or if you need to specify what to research, please tell
    Use these values to populate the frontmatter template. Never create documents with placeholder values.
 
 6. **Generate research document:**
+
    - Use template: `@.strategic-claude-basic/templates/commands/research.template.md`
    - Replace ALL bracketed placeholders with actual metadata gathered in step 5
    - Follow naming convention from: `@.strategic-claude-basic/research/CLAUDE.md`
    - Write document to: `.strategic-claude-basic/research/[filename]` using the naming convention rules
    - Update the `@.strategic-claude-basic/research/CLAUDE.md` file with the new document entry
 
-8. **Present findings:**
+7. **Present findings:**
+
    - Present a concise summary of findings to the user
    - Include key file references for easy navigation
    - Ask if they have follow-up questions or need clarification
 
-9. **Handle follow-up questions:**
+8. **Handle follow-up questions:**
    - If the user has follow-up questions, append to the same research document
    - Update the frontmatter fields `last_updated` and `last_updated_by` to reflect the update
    - Add `last_updated_note: "Added follow-up research for [brief description]"` to frontmatter
@@ -101,6 +110,7 @@ If no topic was provided or if you need to specify what to research, please tell
    - Continue updating the document
 
 ## Important notes:
+
 - Always use parallel Task agents to maximize efficiency and minimize context usage
 - Always run fresh codebase research - never rely solely on existing research documents
 - The @.strategic-claude-basic/research/ directory provides historical context to supplement live findings

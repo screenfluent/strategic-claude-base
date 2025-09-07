@@ -19,7 +19,7 @@ When this command is invoked:
    - If no phase number provided, respond with:
 
 ```
-I'll help you research a specific phase from your product roadmap. 
+I'll help you research a specific phase from your product roadmap.
 
 Please provide:
 1. The phase number you want to research (e.g., "1", "1.2", "2.3")
@@ -30,7 +30,7 @@ Example: `/research_phase 2.3` or `/research_phase 1.1 architecture`
 I'll validate your product documentation, extract phase details, and conduct focused research on that phase.
 ```
 
-   Then wait for the user's input.
+Then wait for the user's input.
 
 ## Process Steps
 
@@ -40,7 +40,7 @@ I'll validate your product documentation, extract phase details, and conduct foc
 
    - Look for existence of these files in `.strategic-claude-basic/product/`:
      - `PRD.md` (Product Requirements Document) - **REQUIRED**
-     - `ARCHITECTURE.md` (System Architecture) - **REQUIRED** 
+     - `ARCHITECTURE.md` (System Architecture) - **REQUIRED**
      - `ROADMAP.md` (Product Roadmap) - **REQUIRED**
      - `REFERENCES.md` (Local Repository References) - **OPTIONAL**
 
@@ -49,7 +49,7 @@ I'll validate your product documentation, extract phase details, and conduct foc
    ```
    Product documentation validation failed. Missing required files:
    - [ ] PRD.md - Product Requirements Document
-   - [ ] ARCHITECTURE.md - System Architecture  
+   - [ ] ARCHITECTURE.md - System Architecture
    - [ ] ROADMAP.md - Product Roadmap
 
    To use phase-based research, you need complete product documentation.
@@ -74,7 +74,7 @@ I'll validate your product documentation, extract phase details, and conduct foc
 1. **Parse the provided phase number**:
 
    - Support multiple formats:
-     - Simple numbers: "1", "2", "3" 
+     - Simple numbers: "1", "2", "3"
      - Decimal notation: "1.1", "2.3", "1.2"
      - With Phase prefix: "Phase 1", "Phase 2.1"
      - With Milestone prefix: "Milestone 1.2"
@@ -98,7 +98,7 @@ I'll validate your product documentation, extract phase details, and conduct foc
 
    Available phases in your roadmap:
    - Phase 1: [Phase Name] (Milestones: 1.1, 1.2)
-   - Phase 2: [Phase Name] (Milestones: 2.1, 2.2, 2.3)  
+   - Phase 2: [Phase Name] (Milestones: 2.1, 2.2, 2.3)
    - Phase 3: [Phase Name] (Milestones: 3.1)
 
    Please provide a valid phase number from the list above.
@@ -120,7 +120,7 @@ I'll validate your product documentation, extract phase details, and conduct foc
    Found Phase [X.Y]: [Phase Name]
 
    **Objectives**: [Phase objectives]
-   **Key Deliverables**: 
+   **Key Deliverables**:
    - [Deliverable 1]
    - [Deliverable 2]
    - [Deliverable 3]
@@ -137,7 +137,7 @@ I'll validate your product documentation, extract phase details, and conduct foc
 1. **Analyze phase requirements and create research focus areas**:
 
    - **Technical Research**: Based on deliverables requiring implementation
-   - **Architecture Research**: Based on system design and integration needs  
+   - **Architecture Research**: Based on system design and integration needs
    - **Dependency Research**: Based on external or internal dependencies
    - **Risk Research**: Based on identified risks and mitigation needs
    - **Performance Research**: Based on success criteria and metrics
@@ -183,6 +183,7 @@ I'll validate your product documentation, extract phase details, and conduct foc
 2. **Structure findings around phase deliverables**:
 
    For each major deliverable:
+
    - Current state analysis (what exists today)
    - Implementation approach (how to build it)
    - Technical challenges (what obstacles exist)
@@ -236,7 +237,7 @@ I'll validate your product documentation, extract phase details, and conduct foc
    - [Technical implementation insight with file:line reference]
    - [Architecture constraint or opportunity]
    - [Dependency or integration challenge]
-   
+
    **Implementation Recommendations**:
    - [Specific approach for key deliverable]
    - [Risk mitigation strategy]
@@ -245,7 +246,7 @@ I'll validate your product documentation, extract phase details, and conduct foc
    **Next Steps**:
    - [Immediate actions based on research]
    - [Additional research areas if needed]
-   
+
    Would you like me to research any specific aspect in more detail?
    ```
 
@@ -260,23 +261,27 @@ I'll validate your product documentation, extract phase details, and conduct foc
 ## Important Guidelines
 
 1. **Be Phase-Focused**:
+
 - All research should directly support the specified phase objectives
 - Prioritize findings that impact phase deliverables and success criteria
 - Connect technical solutions to business outcomes defined in the phase
 
 2. **Be Comprehensive but Targeted**:
+
 - Read ALL product documentation COMPLETELY before starting research
 - Focus research on phase-specific requirements and constraints
 - Include specific file paths and line numbers for implementation references
 - Balance depth with relevance to phase objectives
 
 3. **Be Validation-Oriented**:
+
 - Map findings to phase success criteria (automated and manual)
 - Identify how to validate each deliverable completion
 - Highlight dependencies that could impact phase timeline
 - Address risks and mitigation strategies from the roadmap
 
 4. **Be Implementation-Ready**:
+
 - Provide actionable insights for phase implementation
 - Include code examples and patterns from existing codebase
 - Identify reusable components and utilities
@@ -285,24 +290,28 @@ I'll validate your product documentation, extract phase details, and conduct foc
 ## Phase Research Focus Areas
 
 ### For Foundation Phases (typically 1.x):
+
 - Infrastructure setup and core architecture
 - Development environment and tooling
 - Basic functionality and proof of concept
 - Integration foundations and API design
 
 ### For Development Phases (typically 2.x):
+
 - Feature implementation and business logic
 - User interface and experience components
 - Data management and persistence
 - Integration with external services
 
 ### For Enhancement Phases (typically 3.x):
+
 - Performance optimization and scalability
 - Advanced features and edge cases
 - Quality assurance and testing
 - Production readiness and deployment
 
 ### For Maintenance Phases (typically 4.x+):
+
 - Bug fixes and stability improvements
 - Documentation and knowledge transfer
 - Long-term maintenance planning
@@ -311,6 +320,7 @@ I'll validate your product documentation, extract phase details, and conduct foc
 ## Success Criteria for Phase Research
 
 ### Research Quality Standards:
+
 - [ ] All phase deliverables addressed in research
 - [ ] Technical implementation approaches identified
 - [ ] Success criteria validation methods defined
@@ -320,6 +330,7 @@ I'll validate your product documentation, extract phase details, and conduct foc
 - [ ] Timeline and resource implications considered
 
 ### Documentation Standards:
+
 - [ ] Research document follows template format
 - [ ] Phase context included in frontmatter
 - [ ] Findings structured around phase deliverables
@@ -330,18 +341,21 @@ I'll validate your product documentation, extract phase details, and conduct foc
 ## Common Phase Research Patterns
 
 ### For New Feature Development:
+
 - Research existing similar features
 - Identify reusable components and patterns
 - Plan data model and API changes
 - Consider user experience and interface needs
 
 ### For Infrastructure Changes:
+
 - Analyze current architecture constraints
 - Research scalability and performance implications
 - Plan migration strategies and rollback procedures
 - Consider operational and maintenance impacts
 
 ### For Integration Projects:
+
 - Research external service capabilities and constraints
 - Plan authentication and authorization approaches
 - Design error handling and resilience patterns
@@ -350,18 +364,21 @@ I'll validate your product documentation, extract phase details, and conduct foc
 ## Example Research Questions by Phase Type
 
 ### Foundation Phase Questions:
+
 - What architecture patterns exist in the current codebase?
 - How should new components integrate with existing systems?
 - What development and deployment infrastructure is needed?
 - What foundational utilities and libraries should be established?
 
 ### Feature Development Phase Questions:
+
 - How do existing similar features work in the codebase?
 - What data models and API changes are required?
 - How should the user interface integrate with existing patterns?
 - What testing and validation approaches should be used?
 
 ### Enhancement Phase Questions:
+
 - What performance bottlenecks exist in current implementation?
 - How can existing features be optimized or extended?
 - What additional integrations or capabilities are needed?

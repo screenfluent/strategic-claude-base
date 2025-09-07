@@ -25,7 +25,7 @@ Please provide:
 1. The phase or milestone number you want to plan (e.g., "1", "1.2", "2.3", "3")
 2. Optional focus area or specific aspect to emphasize
 
-Examples: 
+Examples:
 - `/plan_phase 2.3` - Creates plan for milestone 2.3 only
 - `/plan_phase 3` - Creates plans for all milestones in phase 3 (3.1, 3.2, 3.3)
 - `/plan_phase 1.1 infrastructure` - Creates plan for milestone 1.1 with infrastructure focus
@@ -33,7 +33,7 @@ Examples:
 I'll validate your product documentation, extract phase/milestone details, and create targeted implementation plans.
 ```
 
-   Then wait for the user's input.
+Then wait for the user's input.
 
 ## Process Steps
 
@@ -43,7 +43,7 @@ I'll validate your product documentation, extract phase/milestone details, and c
 
    - Look for existence of these files in `.strategic-claude-basic/product/`:
      - `PRD.md` (Product Requirements Document) - **REQUIRED**
-     - `ARCHITECTURE.md` (System Architecture) - **REQUIRED** 
+     - `ARCHITECTURE.md` (System Architecture) - **REQUIRED**
      - `ROADMAP.md` (Product Roadmap) - **REQUIRED**
      - `REFERENCES.md` (Local Repository References) - **OPTIONAL**
 
@@ -52,7 +52,7 @@ I'll validate your product documentation, extract phase/milestone details, and c
    ```
    Product documentation validation failed. Missing required files:
    - [ ] PRD.md - Product Requirements Document
-   - [ ] ARCHITECTURE.md - System Architecture  
+   - [ ] ARCHITECTURE.md - System Architecture
    - [ ] ROADMAP.md - Product Roadmap
 
    To use phase-based planning, you need complete product documentation.
@@ -101,7 +101,7 @@ I'll validate your product documentation, extract phase/milestone details, and c
 
    Available phases and milestones in your roadmap:
    - Phase 1: [Phase Name] (Milestones: 1.1, 1.2, 1.3)
-   - Phase 2: [Phase Name] (Milestones: 2.1, 2.2, 2.3)  
+   - Phase 2: [Phase Name] (Milestones: 2.1, 2.2, 2.3)
    - Phase 3: [Phase Name] (Milestones: 3.1, 3.2)
 
    Please provide a valid phase or milestone number from the list above.
@@ -112,21 +112,24 @@ I'll validate your product documentation, extract phase/milestone details, and c
 4. **Determine planning scope**:
 
    **For specific milestone (e.g., "2.3")**:
+
    - Extract single milestone content
    - Plan for that milestone only
 
    **For full phase (e.g., "2")**:
+
    - Extract all milestones in that phase
    - Plan to create separate plan files for each milestone
 
 5. **Present planning scope**:
 
    **For single milestone**:
+
    ```
    Found Milestone [X.Y]: [Milestone Name]
 
    **Objectives**: [Milestone objectives]
-   **Key Deliverables**: 
+   **Key Deliverables**:
    - [Deliverable 1]
    - [Deliverable 2]
 
@@ -136,6 +139,7 @@ I'll validate your product documentation, extract phase/milestone details, and c
    ```
 
    **For full phase**:
+
    ```
    Found Phase [X]: [Phase Name]
 
@@ -158,6 +162,7 @@ I'll validate your product documentation, extract phase/milestone details, and c
      - Content search: phase/milestone numbers in document content
 
 2. **Read all related research documents**:
+
    - **IMPORTANT**: Read completely, not partially
    - Extract research relevant to the specific phase/milestone
    - Note technical findings and implementation recommendations
@@ -173,6 +178,7 @@ I'll validate your product documentation, extract phase/milestone details, and c
    - Use the **codebase-pattern-finder** agent to find similar implementation patterns
 
    Each research task should:
+
    - Focus on specific milestone deliverables and success criteria
    - Find relevant code examples and implementation patterns
    - Identify technical challenges and solutions
@@ -186,6 +192,7 @@ I'll validate your product documentation, extract phase/milestone details, and c
 1. **For each milestone to be planned**:
 
    - Gather metadata for plan document:
+
      ```bash
      # Get current date/time with timezone
      date --iso-8601=seconds
@@ -206,19 +213,15 @@ I'll validate your product documentation, extract phase/milestone details, and c
      - Full Phase 3 → "phase3-1-interactive-controls", "phase3-2-visual-themes", "phase3-3-mobile-optimization"
 
 2. **Create implementation plan document**:
+
    - Use template: `@.strategic-claude-basic/templates/commands/plan.template.md`
    - Replace ALL bracketed placeholders with actual milestone details
    - Follow naming convention: `PLAN_NNNN_DD-MM-YYYY_day_phase[X]-[Y]-[subject].md`
-   - Add milestone-specific metadata to frontmatter:
-     - `phase: "[Phase X: Phase Name]"`
-     - `milestone: "[Milestone X.Y: Milestone Name]"`
-     - `milestone_deliverables: [List of key deliverables]`
-     - `related_docs: ["PRD.md", "ARCHITECTURE.md", "ROADMAP.md"]`
-     - `related_research: [List of research documents read]`
 
 3. **Structure plan around milestone deliverables**:
 
    For each major deliverable:
+
    - Current state analysis (what exists today)
    - Implementation approach (how to build it)
    - Technical challenges (what obstacles exist)
@@ -269,23 +272,27 @@ I'll validate your product documentation, extract phase/milestone details, and c
 ## Important Guidelines
 
 1. **Be Milestone-Focused**:
+
 - All planning should directly support the specified milestone objectives
 - Prioritize deliverables that impact milestone success criteria
 - Connect technical solutions to business outcomes defined in the milestone
 
 2. **Be Implementation-Ready**:
+
 - Provide actionable implementation steps for milestone deliverables
 - Include specific code examples and patterns from existing codebase
 - Identify reusable components and utilities
 - Define clear success criteria (automated and manual)
 
 3. **Be Research-Informed**:
+
 - Read ALL related research documents before planning
 - Include specific file paths and line numbers for implementation references
 - Cross-reference technical solutions with research findings
 - Address technical challenges identified in research
 
 4. **Be Scope-Appropriate**:
+
 - Single milestone plans focus exclusively on that milestone
 - Full phase plans create separate, focused plans per milestone
 - Include clear "what we're NOT doing" sections to prevent scope creep
@@ -294,6 +301,7 @@ I'll validate your product documentation, extract phase/milestone details, and c
 ## Plan Quality Standards
 
 ### For Single Milestone Plans:
+
 - [ ] Milestone objectives clearly addressed
 - [ ] All deliverables have implementation approaches
 - [ ] Success criteria include automated and manual verification
@@ -302,6 +310,7 @@ I'll validate your product documentation, extract phase/milestone details, and c
 - [ ] Specific file:line references provided for implementation
 
 ### For Full Phase Plans:
+
 - [ ] Separate plan created for each milestone in the phase
 - [ ] Each plan maintains milestone-specific focus
 - [ ] Cross-milestone dependencies identified
@@ -312,24 +321,28 @@ I'll validate your product documentation, extract phase/milestone details, and c
 ## Milestone Planning Focus Areas
 
 ### For Infrastructure Milestones (typically X.1):
+
 - Development environment and tooling setup
 - Build system configuration and optimization
 - Dependency management and integration
 - Basic project structure and organization
 
 ### For Core Feature Milestones (typically X.2):
+
 - Primary feature implementation and logic
 - Data models and state management
 - API design and integration points
 - Core user experience components
 
 ### For Integration/Polish Milestones (typically X.3):
+
 - System integration and testing
 - Performance optimization and tuning
 - User interface polish and enhancement
 - Documentation and deployment preparation
 
 ### For Advanced Feature Milestones (typically X.4+):
+
 - Advanced functionality and edge cases
 - Scalability and performance enhancements
 - Complex integrations and external services
@@ -338,21 +351,25 @@ I'll validate your product documentation, extract phase/milestone details, and c
 ## Example Phase/Milestone Patterns
 
 ### Foundation Phase (Phase 1):
+
 - 1.1: Project Infrastructure Setup
 - 1.2: Basic System Implementation
 - 1.3: Core Algorithm/Logic Implementation
 
 ### Development Phase (Phase 2):
+
 - 2.1: Advanced System Implementation
 - 2.2: Feature Enhancement and Optimization
 - 2.3: Integration and Effects Implementation
 
 ### Enhancement Phase (Phase 3):
+
 - 3.1: Interactive Features and Controls
 - 3.2: Visual Enhancements and Themes
 - 3.3: Platform Optimization (Mobile/Desktop)
 
 ### Production Phase (Phase 4):
+
 - 4.1: Testing and Quality Assurance
 - 4.2: Performance Optimization and Tuning
 - 4.3: Documentation and Deployment

@@ -192,7 +192,7 @@ Once aligned on product vision:
 After structure approval:
 
 1. **Generate all product documents:**
-   - Use templates from: 
+   - Use templates from:
      - `@.strategic-claude-basic/templates/commands/PRD.template.md`
      - `@.strategic-claude-basic/templates/commands/ARCHITECTURE.template.md`
      - `@.strategic-claude-basic/templates/commands/ROADMAP.template.md`
@@ -204,13 +204,14 @@ After structure approval:
 ### Step 5: Review and Iteration
 
 1. **Present the complete documentation suite**:
+
 ```
 
 I've created comprehensive product documentation:
 
 **Files created:**
 - `.strategic-claude-basic/product/PRD.md` - Complete product requirements
-- `.strategic-claude-basic/product/ARCHITECTURE.md` - Technical design and approach  
+- `.strategic-claude-basic/product/ARCHITECTURE.md` - Technical design and approach
 - `.strategic-claude-basic/product/ROADMAP.md` - Implementation timeline and milestones
 - `.strategic-claude-basic/product/REFERENCES.md` - Local codebase references (if applicable)
 
@@ -224,6 +225,7 @@ Please review the documentation and let me know:
 ```
 
 2. **Iterate based on feedback** - be ready to:
+
 - Adjust product scope and requirements
 - Refine technical architecture approach
 - Modify roadmap phases and timelines
@@ -235,35 +237,41 @@ Please review the documentation and let me know:
 ## Important Guidelines
 
 1. **Be Strategic**:
+
 - Think in terms of market opportunity and user value
 - Consider business impact and competitive advantage
 - Balance ambition with technical feasibility
 - Focus on measurable outcomes
 
 2. **Be Comprehensive**:
+
 - Read all research files COMPLETELY before planning
 - Research actual technical capabilities using parallel sub-tasks & sub-agents
 - Include specific file paths and line numbers for technical references
 - Create detailed, actionable documentation with clear success criteria
 
 3. **Be Collaborative**:
+
 - Don't create all documentation in one shot
 - Get buy-in at each major step
 - Allow course corrections and refinements
 - Work iteratively with user feedback
 
 4. **Be Practical**:
+
 - Ground recommendations in actual codebase capabilities
 - Consider resource constraints and timelines
 - Include realistic implementation phases
 - Address risks and mitigation strategies
 
 5. **Track Progress**:
+
 - Use TodoWrite to track documentation creation tasks
 - Update todos as you complete research and analysis
 - Mark documentation tasks complete when done
 
 6. **Maintain Quality Standards**:
+
 - All documents must be production-ready quality
 - Include measurable success criteria
 - Provide specific technical references and examples
@@ -274,12 +282,14 @@ Please review the documentation and let me know:
 **For each document, separate success criteria into categories:**
 
 1. **Automated Verification** (can be validated programmatically):
+
 - Performance benchmarks that can be measured
 - Technical milestones that can be tested
 - Code quality metrics that can be automated
 - Integration tests that can be run
 
 2. **Manual Verification** (requires human validation):
+
 - User experience quality and satisfaction
 - Market fit and competitive positioning
 - Stakeholder alignment and buy-in

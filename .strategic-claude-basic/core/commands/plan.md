@@ -189,6 +189,7 @@ After structure approval:
 ### Step 5: Review
 
 1. **Present the draft plan location**:
+
 ```
 
 I've created the initial implementation plan at:
@@ -204,6 +205,7 @@ Please review it and let me know:
 ```
 
 2. **Iterate based on feedback** - be ready to:
+
 - Add missing phases
 - Adjust technical approach
 - Clarify success criteria (both automated and manual)
@@ -214,35 +216,41 @@ Please review it and let me know:
 ## Important Guidelines
 
 1. **Be Skeptical**:
+
 - Question vague requirements
 - Identify potential issues early
 - Ask "why" and "what about"
 - Don't assume - verify with code
 
 2. **Be Interactive**:
+
 - Don't write the full plan in one shot
 - Get buy-in at each major step
 - Allow course corrections
 - Work collaboratively
 
 3. **Be Thorough**:
+
 - Read all context files COMPLETELY before planning
 - Research actual code patterns using parallel sub-tasks & sub-agents
 - Include specific file paths and line numbers
 - Write measurable success criteria with clear automated vs manual distinction
 
 4. **Be Practical**:
+
 - Focus on incremental, testable changes
 - Consider migration and rollback
 - Think about edge cases
 - Include "what we're NOT doing"
 
 5. **Track Progress**:
+
 - Use TodoWrite to track planning tasks
 - Update todos as you complete research
 - Mark planning tasks complete when done
 
 6. **No Open Questions in Final Plan**:
+
 - If you encounter open questions during planning, STOP
 - Research or ask for clarification immediately
 - Do NOT write the plan with unresolved questions
@@ -254,33 +262,38 @@ Please review it and let me know:
 **Always separate success criteria into two categories:**
 
 1. **Automated Verification** (can be run by execution agents):
+
 - Commands that can be run: `make test`, `npm run lint`, etc.
 - Specific files that should exist
 - Code compilation/type checking
 - Automated test suites
 
 2. **Manual Verification** (requires human testing):
+
 - UI/UX functionality
 - Performance under real conditions
 - Edge cases that are hard to automate
 - User acceptance criteria
 
 **Format example:**
+
 ```markdown
 ### Success Criteria:
 
 #### Automated Verification:
+
 - [ ] Database migration runs successfully: `make migrate`
 - [ ] All unit tests pass: `go test ./...`
 - [ ] No linting errors: `golangci-lint run`
 - [ ] API endpoint returns 200: `curl localhost:8080/api/new-endpoint`
 
 #### Manual Verification:
+
 - [ ] New feature appears correctly in the UI
 - [ ] Performance is acceptable with 1000+ items
 - [ ] Error messages are user-friendly
 - [ ] Feature works correctly on mobile devices
-````
+```
 
 ## Common Patterns
 
