@@ -1,4 +1,4 @@
-# Strategic-Claude-Base-Template
+# Strategic Claude Basic Base Template
 
 ## Structure
 
