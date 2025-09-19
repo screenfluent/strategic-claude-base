@@ -1,6 +1,6 @@
 ---
 description: "Conduct research on a topic and generate documentation following project standards"
-argument-hint: <topic> [optional_description]
+argument-hint: <topic> [--with-codex] [optional_description]
 allowed-tools: Read(./**), Write(./strategic-claude-basic/research/**), Task, Bash(mkdir:*), Glob
 model: claude-opus-4-1
 ---
@@ -8,6 +8,13 @@ model: claude-opus-4-1
 You are tasked with conducting comprehensive research across the codebase to answer user questions by spawning parallel sub-agents and synthesizing their findings.
 
 **Topic provided:** $1
+
+## Flag Parsing
+
+Check if '--with-codex' flag is present in the provided arguments:
+- If the arguments contain '--with-codex', set CODEX_RESEARCH=true for later use
+- Parse the remaining arguments as the research topic (strip the flag from topic processing)
+- The flag enables additional research using the codex-researcher agent alongside standard agents
 
 ## Research Process
 
@@ -73,6 +80,13 @@ If no topic was provided or if you need to specify what to research, please tell
    - Use the **web-search-researcher** agent for external documentation and resources
    - IF you use web-research agents, instruct them to return LINKS with their findings, and please INCLUDE those links in your final report
 
+   **For comprehensive research (when --with-codex flag is used):**
+
+   - Use the **codex-researcher** agent for an alternative comprehensive research perspective
+   - This agent leverages Codex's capabilities for both codebase and web research
+   - Include its findings as a separate section in the synthesis
+   - The codex-researcher provides a different analytical approach that may uncover additional insights
+
    The key is to use these agents intelligently:
 
    - Start with locator agents to find what exists
@@ -85,7 +99,9 @@ If no topic was provided or if you need to specify what to research, please tell
 
    - IMPORTANT: Wait for ALL sub-agent tasks to complete before proceeding
    - Compile all sub-agent results (both codebase and thoughts findings)
+   - **If --with-codex was used**: Include Codex research findings as an alternative perspective
    - Prioritize live codebase findings as primary source of truth
+   - Note any unique insights from Codex research that complement other findings
    - Connect findings across different components
    - Include specific file paths and line numbers for reference
    - Highlight patterns, connections, and architectural decisions
@@ -119,6 +135,8 @@ If no topic was provided or if you need to specify what to research, please tell
    - Replace ALL bracketed placeholders with actual metadata gathered in step 5
    - Follow naming convention from: `@.strategic-claude-basic/research/CLAUDE.md`
    - Include relevant ADR references in frontmatter and findings sections
+   - **If --with-codex flag was used**: Add a section "## Alternative Research (via Codex)" with clear attribution
+   - Include Codex findings with appropriate context and note any differences or additional insights
    - Write document to: `.strategic-claude-basic/research/[filename]` using the naming convention rules
    - Update the `@.strategic-claude-basic/research/CLAUDE.md` file with the new document entry
 
