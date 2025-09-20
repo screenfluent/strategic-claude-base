@@ -151,12 +151,19 @@ If no topic was provided or if you need to specify what to research, please tell
 
    - Create TWO documents with sequential numbering:
      1. **Main document**: `RESEARCH_NNNN_DD-MM-YYYY_day_subject.md` (standard research findings)
-     2. **Codex document**: `RESEARCH_NNNN+1_DD-MM-YYYY_day_subject-codex.md` (Codex research findings)
+     2. **Codex document**: Use next sequential number (e.g., if main is RESEARCH_0005, use RESEARCH_0006): `RESEARCH_NNNN_DD-MM-YYYY_day_subject-codex.md` (Codex research findings)
+
+   **Example**: If creating documents on 19-09-2025-fri about "authentication patterns":
+   - Main document: `RESEARCH_0005_19-09-2025_fri_authentication-patterns.md`
+   - Codex document: `RESEARCH_0006_19-09-2025_fri_authentication-patterns-codex.md`
+
    - Both documents should have complete frontmatter with same metadata except for the topic field:
      - Main document topic: "[Original Research Topic]"
      - Codex document topic: "[Original Research Topic] - Codex Analysis"
    - Main document contains standard research findings without Codex content
    - Codex document contains only Codex research findings with clear attribution
+
+   **Note**: After creating both documents, update the "Next document number" in `@.strategic-claude-basic/research/CLAUDE.md` to reflect that both sequential numbers were used.
 
    - Update the `@.strategic-claude-basic/research/CLAUDE.md` file with BOTH document entries
 
