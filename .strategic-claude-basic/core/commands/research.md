@@ -1,6 +1,6 @@
 ---
 description: "Conduct research on a topic and generate documentation following project standards"
-argument-hint: <topic> [--with-codex] [optional_description]
+argument-hint: <topic> [--with-codex] [--greenfield] [optional_description]
 allowed-tools: Read(./**), Write(./strategic-claude-basic/research/**), Task, Bash(mkdir:*), Glob
 model: claude-opus-4-1
 ---
@@ -11,10 +11,13 @@ You are tasked with conducting comprehensive research across the codebase to ans
 
 ## Flag Parsing
 
-Check if '--with-codex' flag is present in the provided arguments:
+Check if flags are present in the provided arguments:
+
 - If the arguments contain '--with-codex', set CODEX_RESEARCH=true for later use
-- Parse the remaining arguments as the research topic (strip the flag from topic processing)
-- The flag enables additional research using the codex-researcher agent alongside standard agents
+- If the arguments contain '--greenfield', set GREENFIELD_MODE=true for later use
+- Parse the remaining arguments as the research topic (strip flags from topic processing)
+- The '--with-codex' flag enables additional research using the codex-researcher agent alongside standard agents
+- The '--greenfield' flag skips codebase research agents for greenfield projects (new projects without existing codebase)
 
 ## Research Process
 
@@ -69,23 +72,25 @@ If no topic was provided or if you need to specify what to research, please tell
    - Create multiple Task agents to research different aspects concurrently
    - We now have specialized agents that know how to do specific research tasks:
 
-   **For codebase research:**
+   **For codebase research (SKIP if GREENFIELD_MODE=true):**
 
    - Use the **codebase-locator** agent to find WHERE files and components live
    - Use the **codebase-analyzer** agent to understand HOW specific code works
    - Use the **codebase-pattern-finder** agent if you need examples of similar implementations
 
-   **For web research (only if user explicitly asks):**
+   **For web research (only if user explicitly asks OR if GREENFIELD_MODE=true):**
 
    - Use the **web-search-researcher** agent for external documentation and resources
    - IF you use web-research agents, instruct them to return LINKS with their findings, and please INCLUDE those links in your final report
+   - In greenfield mode, focus on best practices, patterns, and external documentation for the research topic
 
    **For comprehensive research (when --with-codex flag is used):**
 
    - Use the **codex-researcher** agent for an alternative comprehensive research perspective
    - This agent leverages Codex's capabilities for both codebase and web research
-   - Include its findings as a separate section in the synthesis
+   - Create a separate research document for Codex findings (see step 7 for dual document creation)
    - The codex-researcher provides a different analytical approach that may uncover additional insights
+   - In greenfield mode, the codex researcher will focus on external research and best practices
 
    The key is to use these agents intelligently:
 
@@ -98,14 +103,16 @@ If no topic was provided or if you need to specify what to research, please tell
 5. **Wait for all sub-agents to complete and synthesize findings:**
 
    - IMPORTANT: Wait for ALL sub-agent tasks to complete before proceeding
-   - Compile all sub-agent results (both codebase and thoughts findings)
-   - **If --with-codex was used**: Include Codex research findings as an alternative perspective
-   - Prioritize live codebase findings as primary source of truth
-   - Note any unique insights from Codex research that complement other findings
-   - Connect findings across different components
-   - Include specific file paths and line numbers for reference
+   - Compile all sub-agent results (both codebase and external research findings)
+   - **If --with-codex was used**: Prepare Codex research findings for separate document creation
+   - **If GREENFIELD_MODE=true**: Note in synthesis that codebase research was intentionally skipped for greenfield project
+   - Prioritize live codebase findings as primary source of truth for main document (unless in greenfield mode)
+   - In greenfield mode, focus on external best practices, patterns, and recommendations
+   - Note any unique insights from Codex research for the companion document
+   - Connect findings across different components (or external patterns in greenfield mode)
+   - Include specific file paths and line numbers for reference (when not in greenfield mode)
    - Highlight patterns, connections, and architectural decisions
-   - Answer the user's specific questions with concrete evidence
+   - Answer the user's specific questions with concrete evidence or external research
 
 6. **Gather metadata for research document:**
    Run these commands to gather all required metadata before writing the document:
@@ -129,16 +136,27 @@ If no topic was provided or if you need to specify what to research, please tell
 
    Use these values to populate the frontmatter template. Never create documents with placeholder values.
 
-7. **Generate research document:**
+7. **Generate research document(s):**
 
    - Use template: `@.strategic-claude-basic/templates/commands/research.template.md`
-   - Replace ALL bracketed placeholders with actual metadata gathered in step 5
+   - Replace ALL bracketed placeholders with actual metadata gathered in step 6
    - Follow naming convention from: `@.strategic-claude-basic/research/CLAUDE.md`
    - Include relevant ADR references in frontmatter and findings sections
-   - **If --with-codex flag was used**: Add a section "## Alternative Research (via Codex)" with clear attribution
-   - Include Codex findings with appropriate context and note any differences or additional insights
-   - Write document to: `.strategic-claude-basic/research/[filename]` using the naming convention rules
-   - Update the `@.strategic-claude-basic/research/CLAUDE.md` file with the new document entry
+
+   **If --with-codex flag was NOT used:**
+
+   - Write single document to: `.strategic-claude-basic/research/[filename]` using the naming convention rules
+
+   **If --with-codex flag was used:**
+
+   - Create TWO documents with the same sequence number:
+     1. **Main document**: `RESEARCH_NNNN_DD-MM-YYYY_day_subject.md` (standard research findings)
+     2. **Codex document**: `RESEARCH_NNNN_DD-MM-YYYY_day_subject-codex.md` (Codex research findings)
+   - Both documents should have complete frontmatter with same metadata but different topics
+   - Main document contains standard research findings without Codex content
+   - Codex document contains only Codex research findings with clear attribution
+
+   - Update the `@.strategic-claude-basic/research/CLAUDE.md` file with BOTH document entries
 
 8. **Present findings:**
 
@@ -158,10 +176,10 @@ If no topic was provided or if you need to specify what to research, please tell
 ## Important notes:
 
 - Always use parallel Task agents to maximize efficiency and minimize context usage
-- Always run fresh codebase research - never rely solely on existing research documents
+- Always run fresh codebase research - never rely solely on existing research documents (unless in greenfield mode)
 - The @.strategic-claude-basic/research/ directory provides historical context to supplement live findings
 - Review and consider all relevant ADRs to ensure research aligns with architectural decisions
-- Focus on finding concrete file paths and line numbers for developer reference
+- Focus on finding concrete file paths and line numbers for developer reference (when not in greenfield mode)
 - Research documents should be self-contained with all necessary context
 - Each sub-agent prompt should be specific and focused on read-only operations
 - Consider cross-component connections and architectural patterns
@@ -180,3 +198,12 @@ If no topic was provided or if you need to specify what to research, please tell
   - Update frontmatter when adding follow-up research
   - Use snake_case for multi-word field names (e.g., `last_updated`, `git_commit`)
   - Tags should be relevant to the research topic and components studied
+
+## Greenfield Mode Usage
+
+The `--greenfield` flag is designed for researching topics for new projects without an existing codebase:
+
+- **When to use**: Starting a new project, evaluating technologies for greenfield development, researching best practices without codebase constraints
+- **What it does**: Skips all codebase research agents (codebase-locator, codebase-analyzer, codebase-pattern-finder) and focuses on external documentation and best practices
+- **Research focus**: Industry standards, best practices, popular patterns, external documentation, and recommendations from the broader development community
+- **Output**: Research documents will emphasize external resources, links, and general recommendations rather than codebase-specific findings
