@@ -149,10 +149,12 @@ If no topic was provided or if you need to specify what to research, please tell
 
    **If --with-codex flag was used:**
 
-   - Create TWO documents with the same sequence number:
+   - Create TWO documents with sequential numbering:
      1. **Main document**: `RESEARCH_NNNN_DD-MM-YYYY_day_subject.md` (standard research findings)
-     2. **Codex document**: `RESEARCH_NNNN_DD-MM-YYYY_day_subject-codex.md` (Codex research findings)
-   - Both documents should have complete frontmatter with same metadata but different topics
+     2. **Codex document**: `RESEARCH_NNNN+1_DD-MM-YYYY_day_subject-codex.md` (Codex research findings)
+   - Both documents should have complete frontmatter with same metadata except for the topic field:
+     - Main document topic: "[Original Research Topic]"
+     - Codex document topic: "[Original Research Topic] - Codex Analysis"
    - Main document contains standard research findings without Codex content
    - Codex document contains only Codex research findings with clear attribution
 
