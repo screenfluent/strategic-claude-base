@@ -1,6 +1,6 @@
 ---
 description: "Create implementation plans for specific roadmap phases or milestones"
-argument-hint: <phase_or_milestone_number> [optional_focus_area]
+argument-hint: <phase_or_milestone_number> [--with-codex] [optional_focus_area]
 allowed-tools: Read(./**), Write(.strategic-claude-basic/plan/**), Task, Bash(mkdir:*, date:*, git:*), Glob
 model: claude-opus-4-1
 ---
@@ -8,6 +8,20 @@ model: claude-opus-4-1
 You are tasked with creating focused implementation plans for specific phases or milestones from the product roadmap. You should validate product documentation exists, extract phase/milestone-specific requirements, and create detailed implementation plans aligned with the phase objectives and deliverables.
 
 **Phase/Milestone provided:** $1
+
+## Flag Parsing
+
+- Check command arguments for `--with-codex`; if present, enable `CODEX_PHASE_PLAN_MODE=true`
+- Strip the flag from phase/milestone parameters before proceeding with validation
+- When `CODEX_PHASE_PLAN_MODE=true`, verify the `mcp__codex__codex` tool is available
+  - If unavailable, inform the user:
+
+    ```
+    ❌ Codex mentorship unavailable — continuing with standard phase planning flow. Configure the Codex MCP server and rerun with `--with-codex` for guided validation.
+    ```
+
+  - After notifying the user, proceed in standard mode (treat `CODEX_PHASE_PLAN_MODE=false`)
+- When the tool is available, keep Codex mentorship enabled for the remaining steps
 
 ## Initial Response
 
@@ -177,6 +191,34 @@ Then wait for the user's input.
    I'll create separate implementation plans for each milestone in this phase.
    ```
 
+### Step 2.5: Codex Mentorship Alignment (when CODEX_PHASE_PLAN_MODE=true)
+
+Before committing to phase/milestone planning approach, collaborate with the Codex MCP mentor:
+
+- Prepare a concise status brief for Codex including:
+  - Phase/milestone objectives, deliverables, and timeline from ROADMAP.md
+  - Current product understanding from PRD.md and ARCHITECTURE.md insights
+  - Milestone scope and planning approach determined in Step 2
+  - Known constraints, dependencies, or risks from research documents
+- Use `mcp__codex__codex` (or a Task agent that delegates to Codex) to evaluate the planning situation. Request that Codex:
+  - Challenge assumptions and highlight blind spots or missing dependencies for the phase/milestone
+  - Recommend optimal planning approach that aligns with existing architecture and product direction
+  - Call out required sequencing changes, prerequisite work, or cross-team coordination needed
+  - Point to best-practice implementations for frameworks/libraries that may appear in milestone deliverables
+- Example mentor prompt:
+
+  ```
+  mcp__codex__codex(
+    prompt: "You're my phase planning mentor. Given this context: [phase/milestone summary, objectives, deliverables, timeline, candidate planning approach],
+    help me decide on the optimal planning strategy for this phase/milestone. Identify risks, blockers, or missing investigations.
+    Flag any architectural or dependency areas where careful consideration will be critical. Challenge assumptions before I create the implementation plans.",
+    approval-policy: "never",
+    sandbox: "workspace-write"
+  )
+  ```
+- Capture Codex's guidance (especially blockers, missing research, architectural considerations) and resolve open items before moving to Step 3
+- If Codex proposes additional investigation, return to Step 2 to gather the required evidence before proceeding
+
 ### Step 3: Research Discovery and Integration
 
 1. **Search for phase/milestone-related research documents**:
@@ -276,6 +318,35 @@ Then wait for the user's input.
 
 6. **Update the planning registry**: Add both entries to `.strategic-claude-basic/plan/CLAUDE.md`
 
+### Step 4.5: Codex Plan Validation (when CODEX_PHASE_PLAN_MODE=true)
+
+Before presenting the plans to the user, run a Codex validation pass:
+
+- Prepare a structured summary for Codex containing:
+  - Phase/milestone overview, key deliverables, and success criteria (automated + manual)
+  - Notable risks, dependencies, and integration points documented in the plans
+  - Any code snippets, architectural decisions, or library usages introduced
+  - References to supporting research/product docs and critical ADR numbers
+- Invoke `mcp__codex__codex` (or a Task agent that delegates to Codex) with instructions to:
+  - Review the phase/milestone plans for gaps, blockers, missing prerequisites, or misordered work
+  - Verify the plans align with the current product roadmap and milestone objectives
+  - Confirm architectural approach follows best practices and roadmap direction
+  - Highlight missing success criteria, testing obligations, or delivery considerations
+  - Ensure risks, mitigation steps, and scope boundaries are explicitly covered
+- Example validation prompt:
+
+  ```
+  mcp__codex__codex(
+    prompt: "Review these phase/milestone implementation and test plans. Identify blockers, missing steps, or misalignments with the product roadmap and milestone objectives.
+    Check that each deliverable is feasible, dependencies are satisfied, and architectural approach follows best practices.
+    Call out any unclear success criteria or testing gaps. Suggest refinements that make the plans execution-ready for this specific phase/milestone.",
+    approval-policy: "never",
+    sandbox: "workspace-write"
+  )
+  ```
+- Integrate Codex feedback into the plans before finalizing. If Codex raises concerns that require product/business decisions, pause and consult the user instead of forcing a decision.
+- Capture the key Codex findings (especially blockers or architectural corrections) to relay in your final response.
+
 ### Step 5: Plan Presentation and Completion
 
 1. **For single milestone planning**:
@@ -306,6 +377,8 @@ Then wait for the user's input.
    Both plans are ready for execution and include specific file paths, code examples, and comprehensive verification procedures.
    ```
 
+   - When `CODEX_PHASE_PLAN_MODE=true`, include a dedicated section in your response summarizing Codex's mentorship and validation feedback. Explicitly mention any adjustments made or blockers that remain so the user understands Codex's contribution to the phase/milestone planning.
+
 2. **For full phase planning**:
 
    ```
@@ -333,6 +406,8 @@ Then wait for the user's input.
 
    Each plan pair is milestone-focused with implementation providing technical approach and test plan providing comprehensive validation strategy.
    ```
+
+   - When `CODEX_PHASE_PLAN_MODE=true`, include a dedicated section in your response summarizing Codex's mentorship and validation feedback across all milestone plans. Explicitly mention any adjustments made or blockers that remain so the user understands Codex's contribution to the phase planning.
 
 ## Important Guidelines
 
