@@ -1,6 +1,6 @@
 ---
 description: "Read and execute a plan document from .strategic-claude-basic/plan/"
-argument-hint: <plan_file>
+argument-hint: <plan_file> [--with-codex]
 model: claude-sonnet-4-0
 ---
 
@@ -9,6 +9,25 @@ model: claude-sonnet-4-0
 You are tasked with implementing an approved technical plan from `.strategic-claude-basic/plan/`. These plans contain phases with specific changes and success criteria.
 
 **Plan file provided:** $1
+
+## Optional Pair Programming Navigator (`--with-codex`)
+
+- Check the command arguments for `--with-codex`. When present, enable Codex pair-programming mode.
+- First, confirm the `mcp__codex__codex` tool is available. If not, inform the user:
+
+  ```
+  ❌ Codex MCP Navigator unavailable — continuing in solo driver mode. Please configure the Codex MCP server and rerun with `--with-codex` when ready.
+  ```
+
+- When the tool is available, treat Codex as a Navigator that maintains the global picture:
+  - Brief Codex on the plan goals, constraints, and current context.
+  - Ask Codex to outline the execution roadmap and explicitly provide the next action when requested.
+  - Before each significant action, consult Codex for guidance; after completing it, summarize progress back to Codex and request the next direction.
+- Operate as the Driver with constant self-reflection:
+  - After receiving Codex guidance, restate the instruction in your own words, evaluate risks, and confirm the plan still aligns with success criteria.
+  - Proactively note uncertainties or validation needs before acting; adjust with Codex if gaps appear.
+  - Periodically sanity-check that Codex's roadmap still matches plan phases and checkbox items.
+- Finish by confirming with Codex that all Navigator tasks are satisfied and no remaining checkpoints exist before marking plan items complete.
 
 ## CRITICAL: Checkbox-Only Updates
 
@@ -37,7 +56,7 @@ Example: `/read_and_execute_plan PLAN_0001_07-09-2025_sat_user-authentication.md
 
 **When given a plan path:**
 
-1. Read the plan completely and check for any existing summary for the plan in `.strategic-claude-basic/summary/`
+1. Determine the actual plan file argument (ignore the optional `--with-codex` flag when present), then read the plan completely and check for any existing summary for the plan in `.strategic-claude-basic/summary/`
 2. Read all files mentioned in the plan
 3. If a corresponding summary exists read that summary and note the progress that may have been completed already
 4. **Read files fully** - never use limit/offset parameters, you need complete context
