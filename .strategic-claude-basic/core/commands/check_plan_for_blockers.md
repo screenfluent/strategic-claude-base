@@ -1,7 +1,7 @@
 ---
 description: "Analyze plans for potential blocking issues by examining codebase, dependencies, and related documents"
-argument-hint: <plan_file(s)_or_NNNN>
-allowed-tools: Read(./**), Task, Bash(git:*, find:*, grep:*), Glob, Grep
+argument-hint: <plan_file(s)_or_NNNN> [--with-codex]
+allowed-tools: Read(./**), Task, Bash(git:*, find:*, grep:*), Glob, Grep, mcp__codex__codex
 model: claude-opus-4-1
 ---
 
@@ -17,6 +17,11 @@ This command supports multiple input formats:
 - **Multiple plans**: `/check_plan_for_blockers PLAN_0019_16-09-2025-tue_reed-solomon-aligned-strategy.md TEST_0019_16-09-2025-tue_rs-aligned-strategy-testing.md`
 - **NNNN number**: `/check_plan_for_blockers 0019` (finds all plans with that number)
 - **Multiple NNNN**: `/check_plan_for_blockers 0019 0020 0021`
+- **With Codex analysis**: `/check_plan_for_blockers 0019 --with-codex` (adds alternative Codex perspective)
+
+### Flag Options
+
+- **--with-codex**: Enables dual-source analysis using the Codex MCP server for an alternative perspective on blockers and dependencies
 
 ## Initial Response
 
@@ -36,8 +41,9 @@ When this command is invoked:
    - Multiple plans: `/check_plan_for_blockers PLAN_0019... TEST_0019...`
    - NNNN number: `/check_plan_for_blockers 0019`
    - Multiple NNNN: `/check_plan_for_blockers 0019 0020 0021`
+   - With Codex analysis: `/check_plan_for_blockers 0019 --with-codex`
 
-   I'll use codebase agents to analyze technical dependencies and identify any blockers.
+   I'll use codebase agents and optionally Codex analysis to identify blockers and propose plan updates.
    ```
 
    Then wait for the user's input.
@@ -51,6 +57,7 @@ When this command is invoked:
    - If argument contains `.md`, treat as plan file path(s)
    - If argument is 4-digit number (NNNN), search for matching plans
    - Support space-separated multiple inputs
+   - Check for `--with-codex` flag and set codex analysis mode
 
 2. **Find and validate plan files**:
 
@@ -141,7 +148,55 @@ When this command is invoked:
    git diff --name-only
    ```
 
-### Step 4: Technical Blocker Identification
+### Step 4: Codex Alternative Analysis (if --with-codex flag present)
+
+1. **Run Codex analysis for alternative perspective**:
+
+   ```
+   # Use Codex MCP server for deep architectural analysis
+   mcp__codex__codex
+   Prompt: "Analyze the following implementation plan(s) for potential blocking issues:
+
+   [Plan content summary]
+
+   Focus on:
+   - Missing prerequisites and dependencies
+   - Interface incompatibilities and API conflicts
+   - Architectural concerns and design conflicts
+   - Hidden dependencies not obvious from surface analysis
+   - Performance bottlenecks and resource constraints
+   - Integration challenges with existing systems
+   - Testing infrastructure requirements
+   - Potential regression risks
+
+   Provide specific technical concerns with file paths and concrete examples where possible."
+   ```
+
+2. **Codex analysis advantages**:
+
+   - **Architectural perspective**: Broader view of system interactions
+   - **Pattern recognition**: Identifies anti-patterns and design conflicts
+   - **Deep dependency analysis**: Finds non-obvious interdependencies
+   - **Alternative viewpoint**: May catch issues standard analysis misses
+
+3. **Present Codex findings**:
+
+   ```
+   Codex Alternative Analysis:
+   🔍 Additional blockers identified:
+   - [Codex-specific finding 1]
+   - [Codex-specific finding 2]
+
+   🔄 Conflicting assessments:
+   - Standard analysis: [finding]
+   - Codex analysis: [alternative view]
+
+   ✅ Consensus issues (found by both):
+   - [High-confidence blocker 1]
+   - [High-confidence blocker 2]
+   ```
+
+### Step 5: Technical Blocker Identification
 
 1. **Categorize potential blockers**:
 
@@ -175,7 +230,7 @@ When this command is invoked:
    go test -short [relevant-packages]
    ```
 
-### Step 5: Agent-Enhanced Analysis
+### Step 6: Agent-Enhanced Analysis
 
 1. **Use specialized agents for comprehensive analysis**:
 
@@ -190,24 +245,41 @@ When this command is invoked:
    - Look for TODO/FIXME comments in related code
    - Identify performance bottlenecks or limitations
 
-### Step 6: Comprehensive Blocker Report
+### Step 7: Comprehensive Blocker Report with Plan Updates
 
-1. **Generate detailed blocker assessment**:
+1. **Generate consolidated blocker assessment**:
 
    ```
-   ## Plan Blocker Analysis: [Plan Names]
+   ## Consolidated Plan Blocker Analysis: [Plan Names]
+
+   ### 📊 Analysis Sources
+   - ✅ Standard codebase analysis completed
+   - [✅/➖] Codex alternative analysis [completed/not requested]
 
    ### ✅ Prerequisites Status
    - [Dependency 1]: ✅ Available / ❌ Missing / ⚠️ Partial
    - [Dependency 2]: ✅ Available / ❌ Missing / ⚠️ Partial
 
-   ### 🔴 Critical Blockers
+   ### 🔴 Critical Blockers (Consolidated)
    **Issues that prevent implementation:**
-   1. **[Blocker Name]** - [Description]
+
+   **High Confidence (Multiple Sources):**
+   1. **[Consensus Blocker]** - [Description]
+      - **Sources**: Standard + Codex analysis
       - **Impact**: [How it blocks the plan]
       - **Location**: [File/component affected]
       - **Resolution**: [Required action]
       - **Estimated Effort**: [Time/complexity]
+
+   **Standard Analysis Only:**
+   2. **[Standard Blocker]** - [Description]
+      - **Source**: Codebase agents
+      - **Confidence**: Medium
+
+   **Codex Analysis Only:**
+   3. **[Codex Blocker]** - [Description]
+      - **Source**: Codex architectural analysis
+      - **Confidence**: Medium
 
    ### 🟡 Non-Critical Issues
    **Issues that may complicate but don't block implementation:**
@@ -221,14 +293,35 @@ When this command is invoked:
 
    ### 📋 Implementation Readiness
    - **Ready to proceed**: ✅ / ❌
-   - **Critical blockers**: [N] found
+   - **Critical blockers**: [N] found ([X] consensus, [Y] single-source)
    - **Dependencies available**: [N/Total]
    - **Risk level**: Low / Medium / High
 
+   ### 🔧 Proposed Plan Updates
+
+   **Current Plan Structure:**
+   - Phase 1: [Current Phase 1 description]
+   - Phase 2: [Current Phase 2 description] ← **BLOCKERS DETECTED**
+   - Phase 3: [Current Phase 3 description]
+
+   **Recommended Plan Updates:**
+   - Phase 1: [Unchanged]
+   - **Phase 1.5: Blocker Resolution** ← **NEW PHASE**
+     - [ ] Resolve [Blocker 1]: [Specific resolution steps]
+     - [ ] Fix [Dependency Issue]: [Specific fix approach]
+     - [ ] Update [Interface]: [Compatibility fixes]
+     - [ ] Test blocker resolutions
+   - Phase 2: [Modified - now can proceed safely]
+   - Phase 3: [Unchanged]
+
    ### 🚀 Recommended Actions
-   1. **Immediate**: [Actions needed before starting]
-   2. **During implementation**: [Considerations during work]
+   1. **Immediate**: Address critical blockers in Phase 1.5
+   2. **During implementation**: Monitor resolved dependencies
    3. **Future**: [Items to address in subsequent work]
+
+   ---
+   **📝 Plan Update Proposal Available**
+   Would you like me to update the plan to fix blockers? (Y/n)
    ```
 
 2. **Agent-sourced evidence**:
@@ -236,6 +329,78 @@ When this command is invoked:
    - Include specific findings from codebase agents
    - Reference exact file locations and line numbers
    - Provide code examples of potential conflicts
+
+### Step 8: Interactive Plan Update Flow
+
+1. **Present plan update proposal**:
+
+   After completing the blocker analysis, always present a plan update proposal that includes:
+   - Identification of which phase has blockers
+   - Creation of intermediate phases (e.g., Phase 1.5, Phase 2.5) to resolve blockers
+   - Specific actionable tasks for each blocker resolution
+   - Updated phase dependencies and prerequisites
+
+2. **User interaction handling**:
+
+   ```
+   **📝 Plan Update Proposal Available**
+   Would you like me to update the plan to fix blockers? (Y/n)
+   ```
+
+   **If user responds "Y" or "yes"**:
+   - Automatically generate updated plan files
+   - Create new phases with blocker resolution tasks
+   - Update existing phases to reflect resolved dependencies
+   - Generate implementation roadmap
+
+   **If user responds "n" or "no"**:
+   - Provide summary of manual steps they can take
+   - Offer to export blocker report for reference
+
+3. **Automatic plan update generation**:
+
+   When user approves updates:
+   - Read original plan file(s)
+   - Insert new resolution phases at appropriate points
+   - Update phase numbering and dependencies
+   - Add specific tasks for each identified blocker
+   - Preserve original plan structure and formatting
+   - Create backup of original plan
+
+4. **Phase insertion logic**:
+
+   ```
+   Original Plan:
+   - Phase 1: Setup
+   - Phase 2: Core Implementation ← BLOCKERS HERE
+   - Phase 3: Testing
+
+   Updated Plan:
+   - Phase 1: Setup
+   - Phase 1.5: Blocker Resolution
+     - [ ] Fix dependency X
+     - [ ] Resolve interface Y
+     - [ ] Update configuration Z
+   - Phase 2: Core Implementation (now safe to proceed)
+   - Phase 3: Testing
+   ```
+
+5. **Generated tasks format**:
+
+   For each blocker, create specific, actionable tasks:
+   ```
+   ### Phase 1.5: Blocker Resolution
+
+   #### Fix [Blocker Name]
+   - [ ] **Analyze**: [Specific analysis steps]
+   - [ ] **Implement**: [Specific implementation steps]
+   - [ ] **Test**: [Specific testing steps]
+   - [ ] **Validate**: [Specific validation criteria]
+
+   **Acceptance Criteria:**
+   - [ ] [Specific measurable outcome 1]
+   - [ ] [Specific measurable outcome 2]
+   ```
 
 ## Advanced Analysis Features
 
@@ -316,8 +481,13 @@ A successful blocker analysis should:
 - **Identify all critical blockers** that prevent implementation
 - **Provide actionable resolution steps** for each blocker
 - **Use agent insights** to validate technical assumptions
-- **Offer implementation readiness assessment** with confidence level
+- **Leverage Codex analysis** when requested for alternative perspectives
+- **Consolidate findings** from multiple analysis sources with confidence levels
+- **Generate specific plan updates** with intermediate blocker resolution phases
+- **Offer interactive plan modification** with user approval workflow
+- **Provide implementation readiness assessment** with confidence level
 - **Suggest optimization opportunities** for multi-plan scenarios
 - **Reference specific code locations** and concrete evidence
+- **Always propose plan updates** to resolve identified blockers
 
-The analysis should enable informed decision-making about when and how to proceed with implementation work.
+The analysis should enable informed decision-making about when and how to proceed with implementation work, and provide a clear path forward through automatic plan updates that address all identified blockers.
