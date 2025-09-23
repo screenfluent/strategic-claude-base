@@ -12,22 +12,57 @@ You are tasked with implementing an approved technical plan from `.strategic-cla
 
 ## Optional Pair Programming Navigator (`--with-codex`)
 
-- Check the command arguments for `--with-codex`. When present, enable Codex pair-programming mode.
-- First, confirm the `mcp__codex__codex` tool is available. If not, inform the user:
+When the `--with-codex` flag is present, enable Codex pair-programming mode using the codex-navigator subagent:
 
-  ```
-  ❌ Codex MCP Navigator unavailable — continuing in solo driver mode. Please configure the Codex MCP server and rerun with `--with-codex` when ready.
-  ```
+### Navigator Setup and Context Sharing
 
-- When the tool is available, treat Codex as a Navigator that maintains the global picture:
-  - Brief Codex on the plan goals, constraints, and current context.
-  - Ask Codex to outline the execution roadmap and explicitly provide the next action when requested.
-  - Before each significant action, consult Codex for guidance; after completing it, summarize progress back to Codex and request the next direction.
-- Operate as the Driver with constant self-reflection:
-  - After receiving Codex guidance, restate the instruction in your own words, evaluate risks, and confirm the plan still aligns with success criteria.
-  - Proactively note uncertainties or validation needs before acting; adjust with Codex if gaps appear.
-  - Periodically sanity-check that Codex's roadmap still matches plan phases and checkbox items.
-- Finish by confirming with Codex that all Navigator tasks are satisfied and no remaining checkpoints exist before marking plan items complete.
+1. **Launch Navigator**: Use the Task tool to start the codex-navigator subagent:
+   ```
+   Use Task tool with subagent_type: "codex-navigator"
+   Prompt: "I'm implementing [plan name] and need strategic navigation guidance.
+
+   Plan Context:
+   - Goal: [primary objective from plan]
+   - Current Phase: [phase being worked on]
+   - Key Constraints: [any critical limitations or requirements]
+   - Files Involved: [main files mentioned in plan]
+
+   Please provide strategic navigation for this implementation, focusing on architecture, patterns, and quality oversight while I handle the tactical implementation."
+   ```
+
+2. **Navigator Availability Handling**: If the subagent reports that Codex MCP is unavailable, continue in solo mode:
+   ```
+   ❌ Codex MCP Navigator unavailable — continuing in solo driver mode.
+   Please configure the Codex MCP server and rerun with `--with-codex` when ready.
+   ```
+
+### Driver-Navigator Collaboration Pattern
+
+3. **Structured Communication Cycle**:
+   - **Before significant actions**: Consult Navigator about approach, risks, and best practices
+   - **During implementation**: Update Navigator on progress and any challenges encountered
+   - **After completing sections**: Request feedback and guidance for next steps
+   - **At phase boundaries**: Confirm completion criteria and validate phase transitions
+
+4. **Driver Self-Reflection Protocol**:
+   - After receiving Navigator guidance, restate the approach in your own words
+   - Evaluate implementation risks and confirm alignment with plan success criteria
+   - Proactively surface uncertainties or validation needs
+   - Sanity-check that Navigator's roadmap matches plan phases and checkbox items
+
+5. **Quality Checkpoints**: Use Navigator for:
+   - Architecture review and pattern consistency
+   - Code quality and best practices verification
+   - Security and performance considerations
+   - Testing strategy validation
+
+### Session Completion Validation
+
+6. **Final Navigator Review**: Before marking plan items complete, confirm with Navigator that:
+   - All strategic objectives have been met
+   - No architectural concerns remain unaddressed
+   - Implementation follows established patterns and standards
+   - No quality issues or technical debt was introduced
 
 ## CRITICAL: Checkbox-Only Updates
 

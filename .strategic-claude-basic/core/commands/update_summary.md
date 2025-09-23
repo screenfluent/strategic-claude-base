@@ -138,8 +138,59 @@ When this command is invoked:
 
    - Determine how many existing issues were resolved
    - Count new critical issues discovered
-   - Estimate updated completion percentage
+   - Estimate updated completion percentage (see Step 3.5 for phase-aware calculation)
    - Assess if overall status changed (partial → complete, etc.)
+
+### Step 3.5: Phase-Aware Completion Analysis
+
+**CRITICAL**: Ensure completion percentage accounts for all phases in the plan to prevent premature 100% completion.
+
+1. **Parse plan document for phase structure**:
+
+   ```bash
+   # Extract plan reference from summary frontmatter
+   plan_ref=$(grep "plan_reference:" "$1" | cut -d'"' -f2)
+
+   # Read the plan document if it exists
+   if [ -f "$plan_ref" ]; then
+     echo "Reading plan structure from: $plan_ref"
+   else
+     echo "Warning: Plan reference not found or invalid"
+   fi
+   ```
+
+2. **Identify all phases in the plan**:
+
+   - Search for "## Phase" headers in the plan document
+   - Extract phase numbers and names (e.g., "Phase 1: Setup", "Phase 2: Implementation")
+   - Count total number of phases
+   - Identify the current phase from summary frontmatter
+
+3. **Calculate phase-aware completion**:
+
+   **Phase Completion Formula**:
+   ```
+   Overall Completion = (Completed Phases / Total Phases * 100) + (Current Phase Progress / Total Phases)
+   ```
+
+   **Examples**:
+   - 3 phases total, Phase 1 complete, Phase 2 at 60%: (1/3 * 100) + (0.6/3 * 100) = 33% + 20% = 53%
+   - 3 phases total, Phases 1-2 complete, Phase 3 at 0%: (2/3 * 100) + (0/3 * 100) = 67%
+   - 3 phases total, all phases complete: 100%
+
+4. **Track phase progression**:
+
+   - Mark phases as: "Complete", "In Progress", "Not Started", "Blocked"
+   - Identify if current work represents phase transition
+   - Update current phase if work has moved to next phase
+   - Ensure no phase is marked complete unless all its success criteria are met
+
+5. **Validate completion constraints**:
+
+   - **Never allow 100% completion** unless all phases are explicitly marked complete
+   - **Cap completion at 95%** if any phase has outstanding critical issues
+   - **Status cannot be "complete"** unless all phases done and no critical issues remain
+   - **Warn if completion calculation seems incorrect** based on phase analysis
 
 ### Step 4: Intelligent Issue Merging
 
@@ -190,9 +241,12 @@ When this command is invoked:
    branch: [CURRENT BRANCH]
    repository: [REPOSITORY NAME]
    plan_reference: [KEEP ORIGINAL] # Don't change plan reference
-   phase: [KEEP OR UPDATE IF PHASE CHANGED]
-   status: [UPDATE BASED ON PROGRESS] # complete | blocked | partial
-   completion_rate: "[UPDATED %] complete"
+   phase: [CURRENT PHASE FROM ANALYSIS] # Update based on phase analysis
+   total_phases: [TOTAL COUNT FROM PLAN] # Total phases identified in plan
+   completed_phases: [COUNT OF COMPLETED PHASES] # Phases marked complete
+   current_phase_progress: [PERCENTAGE] # Progress within current phase
+   status: [UPDATE BASED ON PHASE ANALYSIS] # complete | blocked | partial
+   completion_rate: "[PHASE-AWARE %] complete" # Use phase-aware calculation
    critical_issues: [NEW COUNT] # Recalculated count
    last_updated: [CURRENT DATE YYYY-MM-DD] # Update to today
    ---
@@ -201,6 +255,7 @@ When this command is invoked:
 2. **Update document sections**:
 
    **Overview**: Update with current status, keeping historical context
+   **Phase Progress**: Add new section showing phase completion status
    **Outstanding Issues**: Merge new/resolved/updated issues intelligently
    **Implementation Summary**: Add new work completed
    **Files Modified**: Add any new files modified in current session
@@ -208,12 +263,31 @@ When this command is invoked:
 
 3. **Add update tracking**:
 
-   Include an "Update History" section at the bottom:
+   Include "Phase Progress" and "Update History" sections:
    ```markdown
+   ## Phase Progress
+
+   Progress across all plan phases:
+
+   - **Phase 1: [Name]** - ✅ Complete
+     - All success criteria met
+     - Completed on: [date]
+
+   - **Phase 2: [Name]** - 🔄 In Progress (60% complete)
+     - [X] Task 1 completed
+     - [ ] Task 2 in progress
+     - [ ] Task 3 not started
+
+   - **Phase 3: [Name]** - ⏸️ Not Started
+     - Prerequisites: Phase 2 completion
+     - Blocked by: [critical issue if applicable]
+
+   **Overall Progress**: 53% complete (1.6 of 3 phases)
+
    ## Update History
 
-   - **17-09-2025**: CLI flag parsing fixes implemented, config path truncation bug discovered
-   - **16-09-2025**: Original summary created
+   - **17-09-2025**: Phase 2 progress update, CLI flag parsing fixes implemented, config path truncation bug discovered
+   - **16-09-2025**: Original summary created, Phase 1 completed
    ```
 
 ### Step 6: Document Generation and Validation
@@ -246,11 +320,16 @@ When this command is invoked:
    ```
    Updated summary document: [filename]
 
-   Progress Summary:
+   Phase Progress Summary:
+   📊 Overall Completion: [old%] → [new%] ([X.Y] of [Z] phases)
+   🎯 Current Phase: [Phase N: Name] ([current progress]%)
+   ✅ Completed Phases: [count]
+   ⏸️ Remaining Phases: [count]
+
+   Session Progress:
    ✅ Resolved Issues: [N] (moved to Resolved Issues section)
    🆕 New Issues: [N] (added to appropriate categories)
    📝 Updated Issues: [N] (progress or status changes)
-   📈 Completion: [old%] → [new%]
    🔍 Status: [old] → [new]
 
    Key Changes This Session:
@@ -258,11 +337,18 @@ When this command is invoked:
    - [Major progress item 2]
    - [New critical issue discovered]
 
+   Phase Status:
+   - Phase 1: [Name] - ✅ Complete
+   - Phase 2: [Name] - 🔄 In Progress ([%] complete)
+   - Phase 3: [Name] - ⏸️ Not Started
+
    Issues Still Requiring Attention:
    1. **[Most critical issue]** - [brief description]
    2. **[Second critical issue]** - [brief description]
 
-   The summary has been updated with your latest progress and is ready for review.
+   ⚠️ Note: Completion capped at [%] until all phases complete and critical issues resolved.
+
+   The summary has been updated with phase-aware progress tracking and is ready for review.
    ```
 
 ## Important Guidelines
@@ -281,21 +367,30 @@ When this command is invoked:
    - Focus on progress and problems from current work session
    - Use conversation context to understand what was worked on
 
-3. **Smart Correlation**:
+3. **Phase-Aware Progress Tracking**:
+
+   - **Always parse the plan document** to understand total phase structure
+   - **Never mark completion at 100%** unless all phases are explicitly complete
+   - **Calculate completion across all phases**, not just current phase progress
+   - **Track phase transitions** and update current phase when work moves forward
+   - **Validate phase completion** against success criteria before marking complete
+   - **Cap completion at 95%** if critical issues remain in any phase
+
+4. **Smart Correlation**:
 
    - Detect when wrong summary is provided
    - Auto-suggest correct summary when possible
    - Validate that update makes sense given current work
    - Refuse to update if no relevant changes found
 
-4. **Maintain Quality**:
+5. **Maintain Quality**:
 
    - Follow existing summary template structure
    - Keep consistent formatting and style
    - Update completion percentages realistically
    - Ensure all references remain valid
 
-5. **Resolution Tracking**:
+6. **Resolution Tracking**:
 
    - Create clear audit trail of what was resolved
    - Include commit references for resolutions
