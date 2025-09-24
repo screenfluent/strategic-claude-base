@@ -41,6 +41,20 @@ If no topic was provided or if you need to specify what to research, please tell
    - Create a research plan using TodoWrite to track all subtasks
    - Consider which directories, files, or architectural patterns are relevant
 
+### Step 2.4: Check Existing Research Documents
+
+1. **Discover and read relevant prior research**:
+   - Use Glob to find: `.strategic-claude-basic/research/FETCH_DOCS_*.md`
+   - Use Glob to find: `.strategic-claude-basic/research/DOC_SEARCH_*.md`
+   - Use Glob to find: `.strategic-claude-basic/research/RESEARCH_*.md`
+   - Read documents related to the research topic
+   - Extract key findings, quotes, and references to inform current research
+
+2. **Incorporate prior findings**:
+   - Note which documentation has already been fetched and analyzed
+   - Reference existing quotes and citations from DOC_SEARCH reports
+   - Build upon previous RESEARCH documents rather than duplicating
+
 ### Step 2.5: Architecture Decision Records (ADR) Review
 
 1. **Discover and read all relevant ADRs**:
@@ -67,7 +81,7 @@ If no topic was provided or if you need to specify what to research, please tell
    Research will proceed without architectural decision constraints.
    ```
 
-4. **Spawn parallel sub-agent tasks for comprehensive research:**
+3. **Spawn parallel sub-agent tasks for comprehensive research:**
 
    - Create multiple Task agents to research different aspects concurrently
    - We now have specialized agents that know how to do specific research tasks:
@@ -100,7 +114,7 @@ If no topic was provided or if you need to specify what to research, please tell
    - Each agent knows its job - just tell it what you're looking for
    - Don't write detailed prompts about HOW to search - the agents already know
 
-5. **Wait for all sub-agents to complete and synthesize findings:**
+4. **Wait for all sub-agents to complete and synthesize findings:**
 
    - IMPORTANT: Wait for ALL sub-agent tasks to complete before proceeding
    - Compile all sub-agent results (both codebase and external research findings)
@@ -114,7 +128,7 @@ If no topic was provided or if you need to specify what to research, please tell
    - Highlight patterns, connections, and architectural decisions
    - Answer the user's specific questions with concrete evidence or external research
 
-6. **Gather metadata for research document:**
+5. **Gather metadata for research document:**
    Run these commands to gather all required metadata before writing the document:
 
    ```bash
@@ -136,7 +150,7 @@ If no topic was provided or if you need to specify what to research, please tell
 
    Use these values to populate the frontmatter template. Never create documents with placeholder values.
 
-7. **Generate research document(s):**
+6. **Generate research document(s):**
 
    - Use template: `@.strategic-claude-basic/templates/commands/research.template.md`
    - Replace ALL bracketed placeholders with actual metadata gathered in step 6
@@ -167,7 +181,7 @@ If no topic was provided or if you need to specify what to research, please tell
 
    - Update the `@.strategic-claude-basic/research/CLAUDE.md` file with BOTH document entries
 
-8. **Present findings:**
+7. **Present findings:**
 
    - Present a concise summary of findings to the user
    - Include key file references for easy navigation

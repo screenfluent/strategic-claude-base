@@ -11,7 +11,7 @@ Step 3: Find previous version: Use Glob on [path]/[name]-*.txt, sort by date in 
 Step 4: Save new: Generate date (YYYY-MM-DD), mv temp_new.txt [path]/[name]-[date].txt. If old exists, mv [path]/[name]-[old_date].txt to [path]/archive/[name]-[old_date].txt (immediate archive to keep official/ clean).
 Step 5: If old exists, use doc-diff-analyzer on old.txt and new.txt to generate changelog.
 Step 6: Format output using research.template.md: Title "FETCH_DOCS [date] [name]", sections: New File Path, Diff Summary (from analyzer), Changelog.
-Step 7: Save to /research/FETCH_DOCS_[date]_[name].md.
+Step 7: Save to .strategic-claude-basic/research/FETCH_DOCS_[date]_[name].md.
 Step 8: (Optional) If MCP configured, use codex-researcher agent for independent double-check: Re-analyze from fresh perspective, identify conceptual omissions, suggest external patterns/best practices, cross-reference with codebase for missing integrations.
 
 Hooks: Run post-fetch hook if exists (e.g., notify).

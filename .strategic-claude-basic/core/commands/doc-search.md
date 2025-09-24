@@ -9,7 +9,7 @@ Step 1: Parse query and path (default docs/official/*.txt). If --update, run /fe
 Step 2: Use doc-searcher agent with query and path.
 Step 3: Collect quotes from agent output.
 Step 4: Format using research.template.md: Title "DOC_SEARCH [date] [query]", section "Relevant Quotes" with file:line + context.
-Step 5: Save to /research/DOC_SEARCH_[date]_[query].md.
+Step 5: Save to .strategic-claude-basic/research/DOC_SEARCH_[date]_[query].md.
 Step 6: (Optional) If MCP configured, use codex-researcher agent for independent analysis: Re-examine topic from alternative angle, identify missed connections, suggest related patterns from external docs, find conceptual gaps in search results.
 Step 7: If no results, suggest: "Try broader query or fetch updates with /fetch-docs".
 
