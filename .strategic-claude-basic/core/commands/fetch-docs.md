@@ -12,7 +12,7 @@ Step 4: Save new: Generate date (YYYY-MM-DD), mv temp_new.txt [path]/[name]-[dat
 Step 5: If old exists, use doc-diff-analyzer on old.txt and new.txt to generate changelog.
 Step 6: Format output using research.template.md: Title "FETCH_DOCS [date] [name]", sections: New File Path, Diff Summary (from analyzer), Changelog.
 Step 7: Save to /research/FETCH_DOCS_[date]_[name].md.
-Step 8: (Optional) If MCP configured, use codex-review agent to verify report completeness: Check for missing sections, validate file references, ensure changelog clarity, flag any inconsistencies.
+Step 8: (Optional) If MCP configured, use codex-researcher agent for independent double-check: Re-analyze from fresh perspective, identify conceptual omissions, suggest external patterns/best practices, cross-reference with codebase for missing integrations.
 
 Hooks: Run post-fetch hook if exists (e.g., notify).
 
