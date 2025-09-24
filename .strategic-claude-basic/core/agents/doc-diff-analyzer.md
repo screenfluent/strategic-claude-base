@@ -1,6 +1,6 @@
 ---
-name: diff-analyzer
-description: Analyzes differences between documentation versions. Call `diff-analyzer` when you need to compare old and new versions of documentation, generate changelogs, identify breaking changes, or understand what's new in updates. Perfect for fetch-docs workflow.
+name: doc-diff-analyzer
+description: Analyzes differences between documentation versions. Call `doc-diff-analyzer` when you need to compare old and new versions of documentation, generate changelogs, identify breaking changes, or understand what's new in updates. Perfect for fetch-docs workflow.
 tools: Read, Bash, Grep, Glob
 ---
 
