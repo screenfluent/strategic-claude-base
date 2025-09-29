@@ -1,7 +1,7 @@
 ---
 description: "Read and execute a plan document from .strategic-claude-basic/plan/"
 argument-hint: <plan_file> [--with-codex]
-model: claude-sonnet-4-0
+model: claude-sonnet-4-5
 ---
 
 # Implement Plan
@@ -17,6 +17,7 @@ When the `--with-codex` flag is present, enable Codex pair-programming mode usin
 ### Navigator Setup and Context Sharing
 
 1. **Launch Navigator**: Use the Task tool to start the codex-navigator subagent:
+
    ```
    Use Task tool with subagent_type: "codex-navigator"
    Prompt: "I'm implementing [plan name] and need strategic navigation guidance.
@@ -39,12 +40,14 @@ When the `--with-codex` flag is present, enable Codex pair-programming mode usin
 ### Driver-Navigator Collaboration Pattern
 
 3. **Structured Communication Cycle**:
+
    - **Before significant actions**: Consult Navigator about approach, risks, and best practices
    - **During implementation**: Update Navigator on progress and any challenges encountered
    - **After completing sections**: Request feedback and guidance for next steps
    - **At phase boundaries**: Confirm completion criteria and validate phase transitions
 
 4. **Driver Self-Reflection Protocol**:
+
    - After receiving Navigator guidance, restate the approach in your own words
    - Evaluate implementation risks and confirm alignment with plan success criteria
    - Proactively surface uncertainties or validation needs
@@ -67,11 +70,13 @@ When the `--with-codex` flag is present, enable Codex pair-programming mode usin
 ## CRITICAL: Checkbox-Only Updates
 
 **NEVER modify the plan text**. The ONLY changes allowed are:
+
 - Changing `- [ ]` to `- [x]` when a task is complete
 - NO summaries, NO additional details, NO implementation notes
 - The plan document is a CONTRACT - preserve it exactly as written
 
 **Example of correct checkbox update:**
+
 ```
 OLD: "- [ ] Task description"
 NEW: "- [x] Task description"
@@ -82,6 +87,7 @@ NEW: "- [x] Task description"
 ## Getting Started
 
 **If no plan path provided:**
+
 ```
 I'll help you implement a plan from .strategic-claude-basic/plan/
 
@@ -129,16 +135,19 @@ If you encounter a mismatch:
 After implementing a phase:
 
 ### Automated Verification:
+
 - Run all commands listed under "Automated Verification" in the success criteria
 - Ensure all tests pass and builds succeed
 - Fix any issues before proceeding
 
 ### Manual Verification:
+
 - Test features listed under "Manual Verification"
 - Confirm functionality works as expected
 - Test edge cases mentioned in the plan
 
 ### Progress Updates:
+
 - Update your TodoWrite progress tracker
 - Check off completed items in the plan file using Edit tool
 - **REMINDER**: Only change `- [ ]` to `- [x]` in the plan - NO other modifications
