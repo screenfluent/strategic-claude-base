@@ -55,7 +55,7 @@ When this command is invoked:
    **For file input**:
    ```
    Reading summary file: [filename]
-   
+
    Found [N] issues to document:
    - [Brief issue 1]
    - [Brief issue 2]
@@ -68,7 +68,7 @@ When this command is invoked:
    **For subject input**:
    ```
    Creating issue documentation for: [subject]
-   
+
    I'll document this issue based on the current context and any known details.
    Proceeding with issue creation...
    ```
@@ -103,16 +103,16 @@ When this command is invoked:
    ```bash
    # Get current date/time with timezone
    date --iso-8601=seconds
-   
+
    # Get current git commit hash
    git rev-parse HEAD
-   
+
    # Get current branch name
    git branch --show-current
-   
+
    # Get repository name
    basename -s .git $(git config --get remote.origin.url)
-   
+
    # Get formatted date for filename
    date '+%d-%m-%Y-%a' | tr '[:upper:]' '[:lower:]'
    ```
@@ -128,7 +128,7 @@ When this command is invoked:
 
    **If solution is known from context**:
    - Document it in the Solution section
-   - Mark it as "Recommended" 
+   - Mark it as "Recommended"
    - Include any code examples mentioned
 
    **If solution is unknown**:

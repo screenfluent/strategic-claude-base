@@ -37,7 +37,7 @@ Where:
 **Primary Rule**: Summaries should ALWAYS be connected to a plan document when possible.
 
 - Use the EXACT same NNNN number as the associated plan
-- Use the EXACT same subject as the associated plan  
+- Use the EXACT same subject as the associated plan
 - Include the plan type (PLAN or TEST) in the summary name
 - Match the date format and day name convention
 

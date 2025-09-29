@@ -62,10 +62,10 @@ When this command is invoked:
    Subject: [feature name]
    Status: [complete/partial/blocked]
    Completion Rate: [X%]
-   
+
    [If complete]: ✅ Work appears complete - proceeding with archive search
    [If incomplete]: ⚠️ Work not complete - archive not recommended
-   
+
    Do you want to proceed with archiving? [Y/N]
    ```
 
@@ -77,7 +77,7 @@ When this command is invoked:
    - Search all documentation directories for matches:
      - Plan documents (same NNNN and subject)
      - Summary documents (if starting from validation)
-     - Validation documents (if starting from summary)  
+     - Validation documents (if starting from summary)
      - Research documents (matching subject or phase)
      - Issue documents (matching NNNN or created from summary)
 
@@ -85,16 +85,16 @@ When this command is invoked:
 
    ```
    Found documents to archive:
-   
+
    Core Documents:
    - Plan: PLAN_0001_07-09-2025_sat_user-auth.md
    - Summary: SUMMARY_0001_07-09-2025_sat_user-auth.md
    - Validation: VALIDATION_0001_07-09-2025_sat_user-auth.md
-   
+
    Supporting Documents:
    - Research: RESEARCH_0002_05-09-2025_thu_user-auth-patterns.md
    - Issues: ISSUE_0001_08-09-2025_sun_auth-token-expiry.md
-   
+
    Total: [N] documents will be archived together.
    Proceed with archiving? [Y/N]
    ```
@@ -138,26 +138,26 @@ When this command is invoked:
 
    ```markdown
    # Archive: [Feature Name]
-   
+
    **Archived**: [Current date]
    **Feature**: [Feature description]
    **Status**: Complete
    **Archive ID**: [archive_dir]
-   
+
    ## Documents Included
-   
+
    - **Plan**: [filename] - Original implementation plan
-   - **Summary**: [filename] - Implementation summary  
+   - **Summary**: [filename] - Implementation summary
    - **Validation**: [filename] - Validation results
    - **Research**: [filename] - Supporting research
    - **Issues**: [filename] - Related issues
-   
+
    ## Completion Details
-   
+
    [Extract key completion details from validation/summary]
-   
+
    ## Original Locations
-   
+
    All documents were moved from their respective directories in `.strategic-claude-basic/`
    ```
 
@@ -181,7 +181,7 @@ When this command is invoked:
 
    ```markdown
    ### Completed Work
-   
+
    **[Feature Name]** - Completed [Date]
    - Status: ✅ Complete
    - Archive: `archives/[archive_dir]/`
@@ -195,14 +195,14 @@ When this command is invoked:
 
    ```
    ✅ Archive Complete!
-   
+
    Archived to: .strategic-claude-basic/archives/[archive_dir]/
    Documents moved: [N] files
    Roadmap updated: ✅
-   
+
    Archive contains:
    - [List of moved files]
-   
+
    Roadmap updated with completion status and archive reference.
    Ready to commit changes? [Y/N]
    ```
