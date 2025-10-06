@@ -2,7 +2,7 @@
 description: "Archive completed documentation and update product roadmap"
 argument-hint: <summary_or_validation_file>
 allowed-tools: Read(./**), Write(./.strategic-claude-basic/product/**), Bash(mv:*, mkdir:*, cp:*, git:*, sha256sum:*, date:*), Glob
-model: claude-opus-4-1
+model: claude-sonnet-4-5
 ---
 
 You are tasked with archiving completed documentation to the archives directory and updating the product roadmap with completion status. This command transitions completed work from active directories to organized archives.
@@ -45,11 +45,13 @@ When this command is invoked:
 2. **Validate completion status**:
 
    **For validation documents**:
+
    - Look for overall validation results
    - Check if critical issues are resolved
    - Confirm automated tests are passing
 
    **For summary documents**:
+
    - Check completion_rate in frontmatter
    - Look for status (complete/blocked/partial)
    - Review outstanding issues section
@@ -183,6 +185,7 @@ When this command is invoked:
    ### Completed Work
 
    **[Feature Name]** - Completed [Date]
+
    - Status: ✅ Complete
    - Archive: `archives/[archive_dir]/`
    - Key Deliverables: [List from plan]

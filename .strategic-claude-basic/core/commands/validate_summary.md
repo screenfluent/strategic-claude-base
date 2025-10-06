@@ -2,7 +2,7 @@
 description: "Validate implementation by analyzing summary and related work"
 argument-hint: <summary_file>
 allowed-tools: Read(./**), Write(./.strategic-claude-basic/validation/**), Task, Bash(git:*, make:*, test:*), Glob
-model: claude-opus-4-1
+model: claude-sonnet-4-5
 ---
 
 You are tasked with validating that implementation work was correctly executed by analyzing a summary document and its connected work through git history and comprehensive testing.
@@ -43,15 +43,18 @@ When this command is invoked:
 2. **Find all connected documents**:
 
    **Plan Document**:
+
    - Read the plan referenced in the summary
    - Extract all success criteria (automated and manual)
    - Identify all phases and their requirements
 
    **Research Documents**:
+
    - Search for research documents with matching subject/phase
    - Read any research referenced in the plan or summary
 
    **Issue Documents**:
+
    - Search for issues created from this summary
    - Look for issues with matching NNNN number
    - Read any issues mentioned in the summary
@@ -110,6 +113,7 @@ When this command is invoked:
 1. **Spawn parallel validation agents**:
 
    **Agent 1 - Implementation Verification**:
+
    ```
    Task: Verify implementation matches plan requirements
    - Read plan document completely
@@ -120,6 +124,7 @@ When this command is invoked:
    ```
 
    **Agent 2 - Code Quality Analysis**:
+
    ```
    Task: Analyze code quality and patterns
    - Review files modified during implementation period
@@ -130,6 +135,7 @@ When this command is invoked:
    ```
 
    **Agent 3 - Test Coverage Verification**:
+
    ```
    Task: Verify test coverage and execution
    - Find all test files related to implementation
@@ -242,24 +248,28 @@ When this command is invoked:
 ## Validation Focus Areas
 
 ### Implementation Completeness:
+
 - All planned features implemented
 - Success criteria met (automated and manual)
 - No critical functionality missing
 - Proper error handling implemented
 
 ### Code Quality:
+
 - Follows existing patterns and conventions
 - No obvious technical debt introduced
 - Appropriate test coverage
 - Documentation updated where needed
 
 ### Integration:
+
 - Works with existing systems
 - No regressions introduced
 - Proper data migration if applicable
 - External integrations functioning
 
 ### Performance:
+
 - No performance degradation
 - Scalability considerations addressed
 - Resource usage appropriate

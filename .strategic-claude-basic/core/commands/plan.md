@@ -2,7 +2,7 @@
 description: "Create an implementation plan based on research or issue documentation"
 argument-hint: <research_or_issue_file> [--with-codex] [optional_context]
 allowed-tools: Read(./**), Write(./docs/plan/**), Task, Bash(mkdir:*), Glob
-model: claude-opus-4-1
+model: claude-sonnet-4-5
 ---
 
 You are tasked with creating detailed implementation plans through an interactive, iterative process. You should be skeptical, thorough, and work collaboratively with the user to produce high-quality technical specifications.
@@ -14,6 +14,7 @@ You are tasked with creating detailed implementation plans through an interactiv
 - Check command arguments for `--with-codex`; if present, enable `CODEX_PLAN_MODE=true`
 - Strip the flag from file/topic parameters before proceeding with file reads
 - When `CODEX_PLAN_MODE=true`, verify the `mcp__codex__codex` tool is available
+
   - If unavailable, inform the user:
 
     ```
@@ -21,6 +22,7 @@ You are tasked with creating detailed implementation plans through an interactiv
     ```
 
   - After notifying the user, proceed in standard mode (treat `CODEX_PLAN_MODE=false`)
+
 - When the tool is available, keep Codex mentorship enabled for the remaining steps
 
 ## Initial Response
@@ -191,33 +193,37 @@ After getting initial clarifications:
    - [Design decision needed]
 
    Which approach aligns best with your vision?
- ```
+   ```
+
+```
 
 ### Step 2.5: Codex Mentorship Alignment (when CODEX_PLAN_MODE=true)
 
 Before committing to a plan structure, collaborate with the Codex MCP mentor:
 
 - Prepare a concise status brief for Codex including:
-  - High-level product goals and relevant `.strategic-claude-basic/product/` insights
-  - Current codebase understanding with critical file:line references
-  - Design options or uncertainties surfaced in Step 2
-  - Known constraints, dependencies, or risks already identified
+ - High-level product goals and relevant `.strategic-claude-basic/product/` insights
+ - Current codebase understanding with critical file:line references
+ - Design options or uncertainties surfaced in Step 2
+ - Known constraints, dependencies, or risks already identified
 - Use `mcp__codex__codex` (or a Task agent that delegates to Codex) to evaluate the situation. Request that Codex:
-  - Challenge assumptions and highlight blind spots or missing dependencies
-  - Recommend which design option best aligns with the existing architecture and product direction
-  - Call out required sequencing changes, prerequisite migrations, or domain owners who should be consulted
-  - Point to best-practice implementations for any frameworks/libraries that may appear in the plan (note references to confirm later)
+ - Challenge assumptions and highlight blind spots or missing dependencies
+ - Recommend which design option best aligns with the existing architecture and product direction
+ - Call out required sequencing changes, prerequisite migrations, or domain owners who should be consulted
+ - Point to best-practice implementations for any frameworks/libraries that may appear in the plan (note references to confirm later)
 - Example mentor prompt:
 
-  ```
-  mcp__codex__codex(
-    prompt: "You're my planning mentor. Given this context: [summary of goal, code findings, ADR constraints, candidate approaches],
-    help me decide on the optimal implementation strategy. Identify risks, blockers, or missing investigations.
-    Flag any library/framework areas where best-practice usage will be critical. Challenge assumptions before I lock in the plan outline.",
-    approval-policy: "never",
-    sandbox: "workspace-write"
-  )
-  ```
+```
+
+mcp**codex**codex(
+prompt: "You're my planning mentor. Given this context: [summary of goal, code findings, ADR constraints, candidate approaches],
+help me decide on the optimal implementation strategy. Identify risks, blockers, or missing investigations.
+Flag any library/framework areas where best-practice usage will be critical. Challenge assumptions before I lock in the plan outline.",
+approval-policy: "never",
+sandbox: "workspace-write"
+)
+
+```
 - Capture Codex's guidance (especially blockers, missing research, library best practices) and resolve open items before moving to Step 3
 - If Codex proposes additional investigation, return to Step 2 to gather the required evidence before proceeding
 
@@ -227,19 +233,23 @@ Once aligned on approach:
 
 1. **Create initial plan outline**:
 
-   ```
-   Here's my proposed plan structure:
+```
 
-   ## Overview
-   [1-2 sentence summary]
+Here's my proposed plan structure:
 
-   ## Implementation Phases:
-   1. [Phase name] - [what it accomplishes]
-   2. [Phase name] - [what it accomplishes]
-   3. [Phase name] - [what it accomplishes]
+## Overview
 
-   Does this phasing make sense? Should I adjust the order or granularity?
-   ```
+[1-2 sentence summary]
+
+## Implementation Phases:
+
+1.  [Phase name] - [what it accomplishes]
+2.  [Phase name] - [what it accomplishes]
+3.  [Phase name] - [what it accomplishes]
+
+Does this phasing make sense? Should I adjust the order or granularity?
+
+```
 
 2. **Get feedback on structure** before writing details
 3. **If CODEX_PLAN_MODE=true**, share the proposed outline with Codex for a sanity check. Ask whether the phasing, sequencing, and ownership make sense and whether any cross-team dependencies or ADR misalignments are apparent before you proceed.
@@ -250,37 +260,42 @@ Before detailed plan writing:
 
 1. **Analyze if tests are required:**
 
-   - Scan research documents, requirements, and user input for test-related keywords:
-     - "test", "testing", "unit test", "integration test", "e2e", "coverage"
-     - "verify", "validate", "quality assurance", "QA"
-     - "automated testing", "test suite", "test cases"
-   - Look for mentions of test frameworks, testing tools, or test files
-   - Consider the complexity and criticality of the feature
+- Scan research documents, requirements, and user input for test-related keywords:
+  - "test", "testing", "unit test", "integration test", "e2e", "coverage"
+  - "verify", "validate", "quality assurance", "QA"
+  - "automated testing", "test suite", "test cases"
+- Look for mentions of test frameworks, testing tools, or test files
+- Consider the complexity and criticality of the feature
 
 2. **Ask user for test requirements if unclear:**
 
-   ```
-   Based on the scope of this implementation, I need to understand the testing requirements:
+```
 
-   **Detected potential testing needs:**
-   - [Specific areas that likely need testing]
-   - [Complex logic that should be validated]
-   - [Integration points that need verification]
+Based on the scope of this implementation, I need to understand the testing requirements:
 
-   **Questions:**
-   - Should I create a separate test plan for this feature?
-   - What types of tests are required (unit, integration, e2e)?
-   - Are there existing test patterns I should follow?
+**Detected potential testing needs:**
 
-   I can create either:
-   1. **Implementation plan only** - Focus on building the feature
-   2. **Implementation + Test plans** - Separate detailed plans for building and testing
-   ```
+- [Specific areas that likely need testing]
+- [Complex logic that should be validated]
+- [Integration points that need verification]
+
+**Questions:**
+
+- Should I create a separate test plan for this feature?
+- What types of tests are required (unit, integration, e2e)?
+- Are there existing test patterns I should follow?
+
+I can create either:
+
+1.  **Implementation plan only** - Focus on building the feature
+2.  **Implementation + Test plans** - Separate detailed plans for building and testing
+
+```
 
 3. **Determine plan creation strategy:**
-   - **Tests Required**: Create both implementation and test plans
-   - **No Tests Required**: Create implementation plan only
-   - If `CODEX_PLAN_MODE=true`, confirm with Codex whether additional validation artifacts (load tests, chaos drills, QA sign-off) are expected before finalizing the strategy
+- **Tests Required**: Create both implementation and test plans
+- **No Tests Required**: Create implementation plan only
+- If `CODEX_PLAN_MODE=true`, confirm with Codex whether additional validation artifacts (load tests, chaos drills, QA sign-off) are expected before finalizing the strategy
 
 ### Step 5: Detailed Plan Writing
 
@@ -288,55 +303,57 @@ After structure approval and test requirements determination:
 
 1. **Generate implementation plan document:**
 
-   - Use template: `@.strategic-claude-basic/templates/commands/plan.template.md`
-   - Replace ALL bracketed placeholders with actual details.
-   - Follow naming convention from: `@.strategic-claude-basic/plan/CLAUDE.md`
-   - Write document to: `@.strategic-claude-basic/plan/PLAN_[NNNN]_[date]_[subject].md`
-   - Include relevant ADR references in frontmatter and content
-   - Focus on implementation phases, architecture, and building the feature
-   - Ensure approach aligns with accepted architectural decisions
-   - Document any framework/library usage with explicit best-practice notes (cite relevant docs or code references validated via Codex guidance when available)
+- Use template: `@.strategic-claude-basic/templates/commands/plan.template.md`
+- Replace ALL bracketed placeholders with actual details.
+- Follow naming convention from: `@.strategic-claude-basic/plan/CLAUDE.md`
+- Write document to: `@.strategic-claude-basic/plan/PLAN_[NNNN]_[date]_[subject].md`
+- Include relevant ADR references in frontmatter and content
+- Focus on implementation phases, architecture, and building the feature
+- Ensure approach aligns with accepted architectural decisions
+- Document any framework/library usage with explicit best-practice notes (cite relevant docs or code references validated via Codex guidance when available)
 
 2. **Generate test plan document (if tests required):**
 
-   - Use template: `@.strategic-claude-basic/templates/commands/test_plan.template.md`
-   - Replace ALL bracketed placeholders with test-specific details
-   - Follow naming convention: `TEST_[NNNN]_[date]_[subject].md`
-   - Cross-reference the implementation plan
-   - Include ADR compliance testing where architectural decisions require validation
-   - Focus on test coverage, test types, and validation strategy
-   - Integrate Codex recommendations for critical test scenarios or quality gates
+- Use template: `@.strategic-claude-basic/templates/commands/test_plan.template.md`
+- Replace ALL bracketed placeholders with test-specific details
+- Follow naming convention: `TEST_[NNNN]_[date]_[subject].md`
+- Cross-reference the implementation plan
+- Include ADR compliance testing where architectural decisions require validation
+- Focus on test coverage, test types, and validation strategy
+- Integrate Codex recommendations for critical test scenarios or quality gates
 
 3. **Update plan registry:**
-   - Add both documents to `@.strategic-claude-basic/plan/CLAUDE.md`
-   - Maintain sequential numbering for both PLAN* and TEST* documents
+- Add both documents to `@.strategic-claude-basic/plan/CLAUDE.md`
+- Maintain sequential numbering for both PLAN* and TEST* documents
 
 ### Step 5.5: Codex Plan Validation (when CODEX_PLAN_MODE=true)
 
 Before presenting the plan to the user, run a Codex validation pass:
 
 - Prepare a structured summary for Codex containing:
-  - Plan overview, key phases, and success criteria (automated + manual)
-  - Notable risks, migrations, and dependencies documented in the plan
-  - Any code snippets or library usages introduced (include the relevant excerpts)
-  - References to supporting research/product docs and critical ADR numbers
+- Plan overview, key phases, and success criteria (automated + manual)
+- Notable risks, migrations, and dependencies documented in the plan
+- Any code snippets or library usages introduced (include the relevant excerpts)
+- References to supporting research/product docs and critical ADR numbers
 - Invoke `mcp__codex__codex` (or a Task agent that delegates to Codex) with instructions to:
-  - Review the plan for gaps, blockers, missing prerequisites, or misordered work
-  - Verify the plan aligns with the current product direction and codebase realities
-  - Confirm library/framework usage follows current best practices and recommend adjustments if not
-  - Highlight missing success criteria, testing obligations, or rollout considerations
-  - Ensure risks, mitigation steps, and "not doing" boundaries are explicitly covered
+- Review the plan for gaps, blockers, missing prerequisites, or misordered work
+- Verify the plan aligns with the current product direction and codebase realities
+- Confirm library/framework usage follows current best practices and recommend adjustments if not
+- Highlight missing success criteria, testing obligations, or rollout considerations
+- Ensure risks, mitigation steps, and "not doing" boundaries are explicitly covered
 - Example validation prompt:
 
-  ```
-  mcp__codex__codex(
-    prompt: "Review this implementation plan. Identify blockers, missing steps, or misalignments with the existing product and codebase.
-    Check that each phase is feasible, dependencies are satisfied, and library usage follows best practices.
-    Call out any unclear success criteria or testing gaps. Suggest refinements that make the plan execution-ready.",
-    approval-policy: "never",
-    sandbox: "workspace-write"
-  )
-  ```
+```
+
+mcp**codex**codex(
+prompt: "Review this implementation plan. Identify blockers, missing steps, or misalignments with the existing product and codebase.
+Check that each phase is feasible, dependencies are satisfied, and library usage follows best practices.
+Call out any unclear success criteria or testing gaps. Suggest refinements that make the plan execution-ready.",
+approval-policy: "never",
+sandbox: "workspace-write"
+)
+
+```
 - Integrate Codex feedback into the plan/test plan before finalizing. If Codex raises concerns that require product/business decisions, pause and consult the user instead of forcing a decision.
 - Capture the key Codex findings (especially blockers or best-practice corrections) to relay in your final response.
 
@@ -347,37 +364,45 @@ Before presenting the plan to the user, run a Codex validation pass:
 **For implementation plan only:**
 
 ```
+
 I've created the implementation plan at:
 `.strategic-claude-basic/plan/PLAN_[NNNN]_[date]_[subject].md`
 
 Please review it and let me know:
+
 - Are the phases properly scoped?
 - Are the success criteria specific enough?
 - Any technical details that need adjustment?
 - Missing edge cases or considerations?
+
 ```
 
 **For implementation + test plans:**
 
 ```
+
 I've created both implementation and test plans:
 
 **Implementation Plan**: `.strategic-claude-basic/plan/PLAN_[NNNN]_[date]_[subject].md`
+
 - Focuses on building the feature
 - Implementation phases and architecture
 - Integration points and dependencies
 
 **Test Plan**: `.strategic-claude-basic/plan/TEST_[NNNN]_[date]_[subject].md`
+
 - Focuses on validating the feature
 - Test coverage strategy and test types
 - Test data management and CI integration
 
 Please review both plans and let me know:
+
 - Are the implementation phases properly scoped?
 - Does the test coverage address all critical paths?
 - Are the success criteria specific enough for both building and testing?
 - Any technical details that need adjustment in either plan?
-```
+
+````
 
 - When `CODEX_PLAN_MODE=true`, include a dedicated section in your response summarizing Codex's mentorship and validation feedback. Explicitly mention any adjustments made or blockers that remain so the user understands Codex's contribution.
 
@@ -478,7 +503,7 @@ Please review both plans and let me know:
 - [ ] Performance is acceptable with 1000+ items
 - [ ] Error messages are user-friendly
 - [ ] Feature works correctly on mobile devices
-```
+````
 
 ## Common Patterns
 

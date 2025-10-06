@@ -2,7 +2,7 @@
 description: "Analyze plans for potential blocking issues by examining codebase, dependencies, and related documents"
 argument-hint: <plan_file(s)_or_NNNN> [--with-codex]
 allowed-tools: Read(./**), Task, Bash(git:*, find:*, grep:*), Glob, Grep, mcp__codex__codex
-model: claude-opus-4-1
+model: claude-sonnet-4-5
 ---
 
 You are tasked with analyzing implementation plans for potential blocking issues by examining the codebase, technical dependencies, related summaries, and research documents.
@@ -92,11 +92,13 @@ When this command is invoked:
 2. **Find related documents**:
 
    **Summary Documents**:
+
    - Search for matching SUMMARY documents with same NNNN
    - Read summaries to understand current status and known issues
    - Extract incomplete work and technical debt
 
    **Research Documents**:
+
    - Search for matching RESEARCH documents
    - Read research to understand design decisions and constraints
 
@@ -201,18 +203,21 @@ When this command is invoked:
 1. **Categorize potential blockers**:
 
    **Critical Blockers** 🔴:
+
    - Missing required dependencies
    - Incompatible interfaces or APIs
    - Test failures in prerequisite components
    - Conflicting ongoing work
 
    **Non-Critical Issues** 🟡:
+
    - Performance concerns
    - Technical debt
    - Minor API inconsistencies
    - Documentation gaps
 
    **Prerequisites** ⚠️:
+
    - Required setup or configuration
    - Dependency updates needed
    - Environmental requirements
@@ -235,6 +240,7 @@ When this command is invoked:
 1. **Use specialized agents for comprehensive analysis**:
 
    **For each identified dependency**:
+
    - **codebase-analyzer**: Analyze implementation completeness
    - **codebase-locator**: Find all related files and interfaces
    - **general-purpose**: Research complex integration points
@@ -335,6 +341,7 @@ When this command is invoked:
 1. **Present plan update proposal**:
 
    After completing the blocker analysis, always present a plan update proposal that includes:
+
    - Identification of which phase has blockers
    - Creation of intermediate phases (e.g., Phase 1.5, Phase 2.5) to resolve blockers
    - Specific actionable tasks for each blocker resolution
@@ -348,18 +355,21 @@ When this command is invoked:
    ```
 
    **If user responds "Y" or "yes"**:
+
    - Automatically generate updated plan files
    - Create new phases with blocker resolution tasks
    - Update existing phases to reflect resolved dependencies
    - Generate implementation roadmap
 
    **If user responds "n" or "no"**:
+
    - Provide summary of manual steps they can take
    - Offer to export blocker report for reference
 
 3. **Automatic plan update generation**:
 
    When user approves updates:
+
    - Read original plan file(s)
    - Insert new resolution phases at appropriate points
    - Update phase numbering and dependencies
@@ -388,6 +398,7 @@ When this command is invoked:
 5. **Generated tasks format**:
 
    For each blocker, create specific, actionable tasks:
+
    ```
    ### Phase 1.5: Blocker Resolution
 
@@ -409,6 +420,7 @@ When this command is invoked:
 When analyzing multiple plans:
 
 1. **Check for plan interdependencies**:
+
    - Plans that modify the same components
    - Sequential dependencies between plans
    - Resource conflicts (same files, interfaces)
@@ -423,6 +435,7 @@ When analyzing multiple plans:
 For performance-sensitive plans:
 
 1. **Use performance-focused agents**:
+
    - Analyze current performance baselines
    - Identify potential performance regressions
    - Evaluate resource requirements
@@ -436,6 +449,7 @@ For performance-sensitive plans:
 For plans involving multiple components:
 
 1. **Interface compatibility analysis**:
+
    - Check API version compatibility
    - Analyze data structure alignment
    - Verify protocol consistency
@@ -448,6 +462,7 @@ For plans involving multiple components:
 ## Error Handling
 
 ### Plan Not Found
+
 ```
 ❌ Plan file not found: [filename]
 
@@ -458,6 +473,7 @@ Please check the filename or NNNN number and try again.
 ```
 
 ### Multiple NNNN Matches
+
 ```
 ⚠️ Multiple plans found for NNNN [number]:
 - PLAN_NNNN_date_subject.md
@@ -468,6 +484,7 @@ Analyzing all found plans...
 ```
 
 ### Agent Analysis Failures
+
 ```
 ⚠️ Codebase agent analysis encountered issues:
 - [Agent name]: [Error or limitation]

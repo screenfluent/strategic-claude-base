@@ -2,7 +2,7 @@
 description: "Conduct comprehensive technical deep dive analysis of the current repository to extract architecture patterns, algorithms, and implementation strategies"
 argument-hint: <focus_area> [optional_description]
 allowed-tools: Read(./**), Write(./strategic-claude-basic/research/**), Task, Bash(mkdir:*, git:*, date:*), Glob
-model: claude-opus-4-1
+model: claude-sonnet-4-5
 ---
 
 You are tasked with conducting comprehensive technical deep dive analysis of the current repository to extract architectural patterns, algorithmic choices, and implementation strategies that can be learned from and adapted.

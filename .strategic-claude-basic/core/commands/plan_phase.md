@@ -2,7 +2,7 @@
 description: "Create implementation plans for specific roadmap phases or milestones"
 argument-hint: <phase_or_milestone_number> [--with-codex] [optional_focus_area]
 allowed-tools: Read(./**), Write(.strategic-claude-basic/plan/**), Task, Bash(mkdir:*, date:*, git:*), Glob
-model: claude-opus-4-1
+model: claude-sonnet-4-5
 ---
 
 You are tasked with creating focused implementation plans for specific phases or milestones from the product roadmap. You should validate product documentation exists, extract phase/milestone-specific requirements, and create detailed implementation plans aligned with the phase objectives and deliverables.
@@ -14,6 +14,7 @@ You are tasked with creating focused implementation plans for specific phases or
 - Check command arguments for `--with-codex`; if present, enable `CODEX_PHASE_PLAN_MODE=true`
 - Strip the flag from phase/milestone parameters before proceeding with validation
 - When `CODEX_PHASE_PLAN_MODE=true`, verify the `mcp__codex__codex` tool is available
+
   - If unavailable, inform the user:
 
     ```
@@ -21,6 +22,7 @@ You are tasked with creating focused implementation plans for specific phases or
     ```
 
   - After notifying the user, proceed in standard mode (treat `CODEX_PHASE_PLAN_MODE=false`)
+
 - When the tool is available, keep Codex mentorship enabled for the remaining steps
 
 ## Initial Response
@@ -216,6 +218,7 @@ Before committing to phase/milestone planning approach, collaborate with the Cod
     sandbox: "workspace-write"
   )
   ```
+
 - Capture Codex's guidance (especially blockers, missing research, architectural considerations) and resolve open items before moving to Step 3
 - If Codex proposes additional investigation, return to Step 2 to gather the required evidence before proceeding
 
@@ -344,6 +347,7 @@ Before presenting the plans to the user, run a Codex validation pass:
     sandbox: "workspace-write"
   )
   ```
+
 - Integrate Codex feedback into the plans before finalizing. If Codex raises concerns that require product/business decisions, pause and consult the user instead of forcing a decision.
 - Capture the key Codex findings (especially blockers or architectural corrections) to relay in your final response.
 
