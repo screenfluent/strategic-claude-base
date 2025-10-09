@@ -2,7 +2,7 @@
 description: "Create issue documentation for problems found during development work"
 argument-hint: <subject_or_summary_file>
 allowed-tools: Read(./**), Write(./.strategic-claude-basic/issues/**), Bash(git:*, date:*, grep:*), Glob
-model: claude-opus-4-1
+model: claude-sonnet-4-5
 ---
 
 You are tasked with creating brief, solution-focused issue documentation for problems discovered during development work. You should be fast, focused, and avoid extensive research - document what you know from context.
@@ -41,11 +41,13 @@ When this command is invoked:
 1. **Determine input type**:
 
    **If it's a file path (starts with @. or contains .md)**:
+
    - Read the specified file completely
    - Look for sections about problems, issues, or incomplete work
    - Prepare to create multiple issues if needed
 
    **If it's a description**:
+
    - Use the provided subject as the issue description
    - Look at conversation context for additional details
    - Prepare to create a single issue
@@ -53,9 +55,10 @@ When this command is invoked:
 2. **Present scope**:
 
    **For file input**:
+
    ```
    Reading summary file: [filename]
-   
+
    Found [N] issues to document:
    - [Brief issue 1]
    - [Brief issue 2]
@@ -66,9 +69,10 @@ When this command is invoked:
    ```
 
    **For subject input**:
+
    ```
    Creating issue documentation for: [subject]
-   
+
    I'll document this issue based on the current context and any known details.
    Proceeding with issue creation...
    ```
@@ -103,16 +107,16 @@ When this command is invoked:
    ```bash
    # Get current date/time with timezone
    date --iso-8601=seconds
-   
+
    # Get current git commit hash
    git rev-parse HEAD
-   
+
    # Get current branch name
    git branch --show-current
-   
+
    # Get repository name
    basename -s .git $(git config --get remote.origin.url)
-   
+
    # Get formatted date for filename
    date '+%d-%m-%Y-%a' | tr '[:upper:]' '[:lower:]'
    ```
@@ -127,11 +131,13 @@ When this command is invoked:
 3. **Solution handling**:
 
    **If solution is known from context**:
+
    - Document it in the Solution section
-   - Mark it as "Recommended" 
+   - Mark it as "Recommended"
    - Include any code examples mentioned
 
    **If solution is unknown**:
+
    - Use placeholder: "Solution pending - requires investigation"
    - Mark severity appropriately
    - Document what's known about the problem

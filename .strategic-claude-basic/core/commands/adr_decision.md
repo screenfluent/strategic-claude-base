@@ -2,7 +2,7 @@
 description: "Manage ADR status transitions (accept, reject, deprecate, supersede)"
 argument-hint: <adr_file_path> <--accept|--reject|--deprecate|--supersede>
 allowed-tools: Read(./**), Edit(./.strategic-claude-basic/decisions/**), Bash(git:*, date:*), Glob
-model: claude-opus-4-1
+model: claude-sonnet-4-5
 ---
 
 You are tasked with managing Architecture Decision Record (ADR) status transitions. You will update ADR documents through their lifecycle states: proposed → accepted/rejected, accepted → deprecated/superseded.
@@ -82,18 +82,22 @@ When this command is invoked:
 1. **Validate transition rules**:
 
    **--accept flag**:
+
    - Only allowed from "proposed" → "accepted"
    - Reject if current status is not "proposed"
 
    **--reject flag**:
+
    - Only allowed from "proposed" → "rejected"
    - Reject if current status is not "proposed"
 
    **--deprecate flag**:
+
    - Only allowed from "accepted" → "deprecated"
    - Reject if current status is not "accepted"
 
    **--supersede flag**:
+
    - Allowed from "accepted" → "superseded"
    - Allowed from "deprecated" → "superseded"
    - Require new ADR reference for superseding
@@ -101,6 +105,7 @@ When this command is invoked:
 2. **Handle superseding workflow**:
 
    **If --supersede flag is used**:
+
    ```
    This ADR will be superseded by a new decision.
 
@@ -139,10 +144,12 @@ When this command is invoked:
 3. **Handle superseding cross-references**:
 
    **For the superseded ADR**:
+
    - Add "Superseded by ADR-XXXX on [date]" to Status section
    - Update superseded_by field in frontmatter
 
    **For the superseding ADR** (if it exists):
+
    - Add current ADR to supersedes array in frontmatter
    - Add "Supersedes ADR-XXXX" to Status section
 
@@ -233,19 +240,20 @@ When this command is invoked:
 
 ## Status Transition Rules Summary
 
-| Current Status | Valid Transitions |
-|---------------|-------------------|
-| proposed      | --accept, --reject |
-| accepted      | --deprecate, --supersede |
-| rejected      | None (final state) |
-| deprecated    | --supersede |
-| superseded    | None (final state) |
+| Current Status | Valid Transitions        |
+| -------------- | ------------------------ |
+| proposed       | --accept, --reject       |
+| accepted       | --deprecate, --supersede |
+| rejected       | None (final state)       |
+| deprecated     | --supersede              |
+| superseded     | None (final state)       |
 
 ## Common Scenarios
 
 ### Scenario 1: Accepting a Proposed ADR
 
 User provides proposed ADR with --accept flag:
+
 - Validate current status is "proposed"
 - Update to "accepted"
 - Add acceptance date and commit info
@@ -254,6 +262,7 @@ User provides proposed ADR with --accept flag:
 ### Scenario 2: Superseding an Accepted ADR
 
 User provides accepted ADR with --supersede flag:
+
 - Prompt for superseding ADR number
 - Update current ADR to "superseded"
 - Add superseded_by reference
@@ -263,6 +272,7 @@ User provides accepted ADR with --supersede flag:
 ### Scenario 3: Invalid Transition Attempt
 
 User tries to accept an already accepted ADR:
+
 - Detect invalid transition
 - Explain current status and valid options
 - Provide guidance on correct flag usage

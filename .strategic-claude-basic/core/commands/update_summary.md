@@ -2,7 +2,7 @@
 description: "Update an existing summary document with latest implementation progress"
 argument-hint: <summary_file_path>
 allowed-tools: Read(./**), Write(./.strategic-claude-basic/summary/**), Bash(git:*, date:*, grep:*), Glob
-model: claude-opus-4-1
+model: claude-sonnet-4-5
 ---
 
 You are tasked with updating existing implementation summaries by analyzing the current work session and intelligently merging new findings with existing problems and incomplete work. You should be smart enough to detect if the wrong summary document was provided and only update summaries that are specific to the current work.
@@ -100,6 +100,7 @@ When this command is invoked:
    ```
 
    **Auto-search for correct summary**:
+
    - Use Glob to find all summary files: `@.strategic-claude-basic/summary/SUMMARY_*.md`
    - Read recent summaries to find one that matches current work
    - Suggest the correct summary if found
@@ -122,6 +123,7 @@ When this command is invoked:
 2. **Analyze progress on existing issues**:
 
    For each issue in the current summary:
+
    - Check if related files were modified
    - Look for test results that might indicate resolution
    - Search for TODO comments that might have been resolved
@@ -169,13 +171,15 @@ When this command is invoked:
 3. **Calculate phase-aware completion**:
 
    **Phase Completion Formula**:
+
    ```
    Overall Completion = (Completed Phases / Total Phases * 100) + (Current Phase Progress / Total Phases)
    ```
 
    **Examples**:
-   - 3 phases total, Phase 1 complete, Phase 2 at 60%: (1/3 * 100) + (0.6/3 * 100) = 33% + 20% = 53%
-   - 3 phases total, Phases 1-2 complete, Phase 3 at 0%: (2/3 * 100) + (0/3 * 100) = 67%
+
+   - 3 phases total, Phase 1 complete, Phase 2 at 60%: (1/3 _ 100) + (0.6/3 _ 100) = 33% + 20% = 53%
+   - 3 phases total, Phases 1-2 complete, Phase 3 at 0%: (2/3 _ 100) + (0/3 _ 100) = 67%
    - 3 phases total, all phases complete: 100%
 
 4. **Track phase progression**:
@@ -197,12 +201,14 @@ When this command is invoked:
 1. **Issue Resolution Tracking**:
 
    For issues that appear to be resolved:
+
    - Move to new "Resolved Issues" section
    - Add resolution timestamp and commit reference
    - Include brief description of how it was resolved
    - Keep original issue details for traceability
 
    **Example resolved issue format**:
+
    ```markdown
    ### Resolved Issues
 
@@ -217,6 +223,7 @@ When this command is invoked:
 2. **New Issue Integration**:
 
    Add new issues discovered in current session:
+
    - Place in appropriate category (Critical, Incomplete, TODOs, Discovered)
    - Include session context about when/how discovered
    - Mark clearly as new in this update
@@ -225,6 +232,7 @@ When this command is invoked:
 3. **Issue Status Updates**:
 
    For ongoing issues that had progress:
+
    - Update the issue description to reflect current status
    - Add progress notes with timestamps
    - Adjust priority or impact assessments if changed
@@ -264,17 +272,20 @@ When this command is invoked:
 3. **Add update tracking**:
 
    Include "Phase Progress" and "Update History" sections:
+
    ```markdown
    ## Phase Progress
 
    Progress across all plan phases:
 
    - **Phase 1: [Name]** - ✅ Complete
+
      - All success criteria met
      - Completed on: [date]
 
    - **Phase 2: [Name]** - 🔄 In Progress (60% complete)
-     - [X] Task 1 completed
+
+     - [x] Task 1 completed
      - [ ] Task 2 in progress
      - [ ] Task 3 not started
 
@@ -308,7 +319,7 @@ When this command is invoked:
 
 3. **Validation checks**:
 
-   - Ensure document still follows template structure
+   - Ensure document still follows template structure @.strategic-claude-basic/templates/commands/summary.template.md
    - Verify all placeholders are filled
    - Check that references are still valid
    - Confirm metadata consistency
@@ -385,7 +396,7 @@ When this command is invoked:
 
 5. **Maintain Quality**:
 
-   - Follow existing summary template structure
+   - Follow existing summary template structure @.strategic-claude-basic/templates/commands/summary.template.md
    - Keep consistent formatting and style
    - Update completion percentages realistically
    - Ensure all references remain valid
@@ -438,6 +449,7 @@ When user provides unrelated summary:
 ## Error Handling
 
 ### File Not Found
+
 ```
 ❌ Summary file not found: [path]
 
@@ -446,6 +458,7 @@ Use: `ls .strategic-claude-basic/summary/` to see available summaries
 ```
 
 ### Wrong Directory
+
 ```
 ❌ File is not in the summary directory
 
@@ -454,6 +467,7 @@ Use: `/update_summary @.strategic-claude-basic/summary/SUMMARY_...`
 ```
 
 ### Invalid Format
+
 ```
 ❌ File is not a valid summary document
 
@@ -462,6 +476,7 @@ Summary files have frontmatter with fields like: completion_rate, critical_issue
 ```
 
 ### No Relevant Changes
+
 ```
 ⚠️ No relevant changes found since last update
 
@@ -470,6 +485,7 @@ If you've been working on this task, please make sure you have uncommitted chang
 ```
 
 ### Mismatch Detected
+
 ```
 ⚠️ This summary doesn't appear to match your current work
 
@@ -489,7 +505,7 @@ A successful update should:
 - **Add new issues or problems** discovered during current work
 - **Mark resolved issues** with proper timestamps and context
 - **Update completion metrics** realistically based on progress
-- **Maintain document quality** and template compliance
+- **Maintain document quality** and template compliance @.strategic-claude-basic/templates/commands/summary.template.md
 - **Provide clear audit trail** of what changed and when
 
 The updated summary should be immediately useful for understanding current status and what work remains to be done.

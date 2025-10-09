@@ -12,12 +12,12 @@ import sys
 
 # Import shared notification utilities
 from notifications import (
-    log,
-    get_project_context,
-    send_notification,
-    play_audio,
-    PROJECT_TITLE,
     PROJECT_TAG,
+    PROJECT_TITLE,
+    get_project_context,
+    log,
+    play_audio,
+    send_notification,
 )
 
 HOOK_NAME = "block-skip-hooks"
@@ -101,7 +101,11 @@ def main() -> None:
 
         # Block git hook bypasses
         if "git commit" in command and (
-            "SKIP=" in command or " -n" in command or "--no-verify" in command
+            "SKIP=" in command
+            or " -n" in command
+            or "--no-verify" in command
+            or "core.hooksPath=/dev/null" in command
+            or "GIT_HOOKS_PATH=/dev/null" in command
         ):
             fix_commands = "\n".join(QUALITY_FIX_COMMANDS)
             error_message = (

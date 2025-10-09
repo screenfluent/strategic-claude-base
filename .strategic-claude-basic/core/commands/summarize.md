@@ -2,7 +2,7 @@
 description: "Generate a problem-focused summary of the current implementation work"
 argument-hint: [optional_plan_reference]
 allowed-tools: Read(./**), Write(./.strategic-claude-basic/summary/**), Bash(git:*, date:*, grep:*), Glob
-model: claude-opus-4-1
+model: claude-sonnet-4-5
 ---
 
 You are tasked with creating implementation summaries that focus on problems, incomplete work, and outstanding issues from the current work session. You should be problem-focused, session-scoped, and work only with uncommitted changes and current context.
@@ -179,11 +179,11 @@ When this command is invoked:
 
 3. **Generate summary document**:
 
-   - Use template: `@.strategic-claude-basic/templates/commands/summary.template.md`
+   - Use template: @.strategic-claude-basic/templates/commands/summary.template.md
    - Replace ALL bracketed placeholders with actual metadata
-   - Follow naming convention from: `@.strategic-claude-basic/summary/CLAUDE.md`
-   - Write document to: `.strategic-claude-basic/summary/[filename]`
-   - Update the `@.strategic-claude-basic/summary/CLAUDE.md` file with new document entry
+   - Follow naming convention from: @.strategic-claude-basic/summary/CLAUDE.md
+   - Write document to: .strategic-claude-basic/summary/[filename]
+   - Update the @.strategic-claude-basic/summary/CLAUDE.md file with new document entry
 
 ### Step 5: Present Results
 

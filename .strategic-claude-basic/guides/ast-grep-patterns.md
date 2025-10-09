@@ -5,7 +5,7 @@ ast-grep is a powerful tool for structural code search and transformation using 
 ## Why ast-grep?
 
 - **Precision**: Matches code structure, not just text patterns
-- **Language-aware**: Understands Go syntax and semantics  
+- **Language-aware**: Understands Go syntax and semantics
 - **Fast**: Written in Rust, processes thousands of files quickly
 - **Flexible**: Multiple strictness levels for different matching needs
 
@@ -166,7 +166,7 @@ ast-grep run -p 'json.Unmarshal($$$)' -l go
 # Find test functions
 ast-grep run -p 'func Test$NAME(t *testing.T) { $$$ }' -l go
 
-# Find benchmark functions  
+# Find benchmark functions
 ast-grep run -p 'func Benchmark$NAME(b *testing.B) { $$$ }' -l go
 
 # Find table tests
@@ -273,7 +273,7 @@ ast-grep run -p 'if err != nil { return err }' -r 'if err != nil { return fmt.Er
 ## Common Gotchas
 
 - Pattern must be valid Go syntax
-- Meta variables are case-sensitive  
+- Meta variables are case-sensitive
 - `$$$` matches zero or more, so `func f($$$)` matches `func f()`
 - Type conversions can interfere with function call matching
 - Package imports need specific context for accurate matching

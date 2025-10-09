@@ -2,7 +2,7 @@
 description: "Conduct research on a topic and generate documentation following project standards"
 argument-hint: <topic> [--with-codex] [--greenfield] [optional_description]
 allowed-tools: Read(./**), Write(./strategic-claude-basic/research/**), Task, Bash(mkdir:*), Glob
-model: claude-opus-4-1
+model: claude-sonnet-4-5
 ---
 
 You are tasked with conducting comprehensive research across the codebase to answer user questions by spawning parallel sub-agents and synthesizing their findings.
@@ -168,6 +168,7 @@ If no topic was provided or if you need to specify what to research, please tell
      2. **Codex document**: Use next sequential number (e.g., if main is RESEARCH_0005, use RESEARCH_0006): `RESEARCH_NNNN_DD-MM-YYYY_day_subject-codex.md` (Codex research findings)
 
    **Example**: If creating documents on 19-09-2025-fri about "authentication patterns":
+
    - Main document: `RESEARCH_0005_19-09-2025_fri_authentication-patterns.md`
    - Codex document: `RESEARCH_0006_19-09-2025_fri_authentication-patterns-codex.md`
 

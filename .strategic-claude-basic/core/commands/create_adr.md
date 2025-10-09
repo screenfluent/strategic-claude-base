@@ -2,7 +2,7 @@
 description: "Create Architecture Decision Record (ADR) documentation for architectural decisions"
 argument-hint: <decision_context_or_subject>
 allowed-tools: Read(./**), Write(./.strategic-claude-basic/decisions/**), Bash(git:*, date:*, grep:*), Glob
-model: claude-opus-4-1
+model: claude-sonnet-4-5
 ---
 
 You are tasked with creating focused, well-structured Architecture Decision Record (ADR) documentation for architectural decisions. You should be efficient, focused, and avoid extensive research - document the decision context you know.
@@ -41,11 +41,13 @@ When this command is invoked:
 1. **Determine input type**:
 
    **If it's a file path (starts with @. or contains .md)**:
+
    - Read the specified file completely
    - Look for sections about architectural decisions, technology choices, or design approaches
    - Prepare to create multiple ADRs if needed
 
    **If it's a decision context**:
+
    - Use the provided context as the decision subject
    - Look at conversation context for additional details about alternatives, rationale
    - Prepare to create a single ADR
@@ -53,6 +55,7 @@ When this command is invoked:
 2. **Present scope**:
 
    **For file input**:
+
    ```
    Reading file: [filename]
 
@@ -66,6 +69,7 @@ When this command is invoked:
    ```
 
    **For context input**:
+
    ```
    Creating ADR documentation for: [decision context]
 
@@ -127,11 +131,13 @@ When this command is invoked:
 3. **Decision handling**:
 
    **If alternatives and rationale are known from context**:
+
    - Document them in the Alternatives Considered section
    - Include rationale in the Decision section
    - Mark status as "proposed" (never create as "accepted")
 
    **If decision context is minimal**:
+
    - Document what's known about the decision
    - Use placeholder sections where information is missing
    - Mark areas that need further investigation
